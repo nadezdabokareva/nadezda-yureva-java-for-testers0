@@ -6,10 +6,10 @@ import ru.stqa.geometry.figures.Triangle;
 
 public class Geometry {
     public static void main(String[] args) {
-        Square.printSquareArea(7.0);
-        Rectangle.printRectangleArea(7.0, 3.0);
-        Triangle.printTrianglePerimeter(7, 8, 5);
-        Triangle.printTriangleSquare(10, 10, 10);
+        Square.printSquareArea(new Square(7.0));
+
+        Triangle.printTrianglePerimeter(new Triangle(1, 2 ,3));
+        Triangle.printTriangleSquare(new Triangle(1, 2 ,3));
     }
 
 }
