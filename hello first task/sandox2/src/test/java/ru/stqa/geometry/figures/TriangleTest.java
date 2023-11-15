@@ -17,4 +17,23 @@ public class TriangleTest {
         var result = (new Triangle(4, 6,8).square());
         Assertions.assertEquals(expected, result);
     }
+    @Test
+    public void cannotCreateTriangleWithNegativeSide() {
+        try {
+            new Triangle(-5.0, 5.0, 5.0);
+            Assertions.fail();
+        } catch (IllegalArgumentException exception) {
+            //OK
+        }
+    }
+
+    @Test
+    public void checkSunOfTwoSideOfTriangle() {
+        try {
+            new Triangle(1.0, 2.0, 5.0);
+            Assertions.fail();
+        } catch (IllegalArgumentException exception) {
+            //OK
+        }
+    }
 }
