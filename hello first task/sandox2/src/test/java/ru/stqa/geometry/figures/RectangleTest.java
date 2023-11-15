@@ -13,4 +13,16 @@ public class RectangleTest {
             //OK
         }
     }
+    @Test
+    public void assertRectangleEquals() {
+       var r1 = new Rectangle(5, 4);
+       var r2 = new Rectangle(5, 4);
+       Assertions.assertTrue(r1.equals(r2));
+    }
+    @Test
+    public void assertDiffRectangleEquals() {
+        var r1 = new Rectangle(5, 4);
+        var r2 = new Rectangle(4, 5);
+        Assertions.assertTrue(r1.equals(r2));
+    }
 }
