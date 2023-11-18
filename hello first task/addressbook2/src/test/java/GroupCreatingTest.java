@@ -1,5 +1,5 @@
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.NoSuchElementException;
@@ -9,7 +9,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 public class GroupCreatingTest {
     private static WebDriver driver;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         if (driver == null) {
             driver = new FirefoxDriver();
