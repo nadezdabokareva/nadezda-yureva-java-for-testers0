@@ -1,6 +1,5 @@
 package ru.stqa.geometry;
 
-import ru.stqa.geometry.figures.Rectangle;
 import ru.stqa.geometry.figures.Square;
 import ru.stqa.geometry.figures.Triangle;
 
