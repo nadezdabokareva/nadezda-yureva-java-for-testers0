@@ -14,6 +14,7 @@ public class GroupCreatingTest extends TestBase {
     public void createGroupWithEmptyNameTest() {
         app.groups().createGroup(new GroupData());
     }
+
     @Test
     public void createGroupWithNoEmptyNameOnlyTest() {
         var emptyGroup = new GroupData();
