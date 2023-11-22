@@ -2,12 +2,18 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="addressbook" target="17" />
+      <module name="addressbook.main" target="17" />
+      <module name="addressbook.test" target="17" />
       <module name="addressbook2" target="17" />
       <module name="addressbook2.main" target="17" />
       <module name="addressbook2.test" target="17" />
       <module name="addressbook2_main" target="17" />
       <module name="addressbook2_test" target="17" />
       <module name="org.example-addressbook2" target="17" />
+      <module name="sandbox" target="17" />
+      <module name="sandbox.main" target="17" />
+      <module name="sandbox.test" target="17" />
       <module name="sandbox_main" target="17" />
       <module name="sandbox_test" target="17" />
       <module name="sandox2" target="17" />

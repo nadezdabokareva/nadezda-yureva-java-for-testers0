@@ -74,7 +74,25 @@ public class TriangleTest {
         var b = 3;
         var c = 4;
         var triangle = new Triangle(a, b, c);
-        var triangle1 = new Triangle(a, c, b);
+        var triangle1 = new Triangle(b, a, c);
+        Assertions.assertEquals(triangle, triangle1);
+    }
+    @Test
+    public void checkEqualsDiffTriangle5() {
+        var a = 2;
+        var b = 3;
+        var c = 4;
+        var triangle = new Triangle(c, b, a);
+        var triangle1 = new Triangle(b, a, c);
+        Assertions.assertEquals(triangle, triangle1);
+    }
+    @Test
+    public void checkEqualsDiffTriangle6() {
+        var a = 3;
+        var b = 4;
+        var c = 5;
+        var triangle = new Triangle(a, b, c);
+        var triangle1 = new Triangle(b, c, a);
         Assertions.assertEquals(triangle, triangle1);
     }
 }
