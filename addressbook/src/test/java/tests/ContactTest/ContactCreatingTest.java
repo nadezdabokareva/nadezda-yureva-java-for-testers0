@@ -1,7 +1,8 @@
-package tests;
+package tests.ContactTest;
 
 import model.ContactData;
 import org.junit.jupiter.api.Test;
+import tests.TestBase;
 
 public class ContactCreatingTest extends TestBase {
 

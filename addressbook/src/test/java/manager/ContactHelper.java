@@ -10,35 +10,59 @@ public class ContactHelper extends HelperBase {
     }
 
     public void addNewContact(ContactData contact) {
-        initAddNewGroup();
+        initAddNewContact();
         fillContactFields(contact);
         submitAddContact();
         returnToHomePage();
     }
 
-    public void initAddNewGroup() {
-        manager.driver.findElement(By.linkText("add new")).click();
+    //Нажать кнопку добавить новый контакт Add new
+    public void initAddNewContact() {
+        click(By.linkText("add new"));
     }
 
+    //Заполнить поля в форме контакта
     public void fillContactFields(ContactData contact) {
-//        manager.driver.findElement(By.name("firstname")).click();
-//        manager.driver.findElement(By.name("firstname")).sendKeys(contact.firstName());
-
         click(By.name("firstname"));
         type(By.name("firstname"), contact.firstName());
 
-        manager.driver.findElement(By.name("middlename")).click();
-        manager.driver.findElement(By.name("middlename")).sendKeys(contact.middleName());
+        click(By.name("middlename"));
+        type(By.name("middlename"), contact.middleName());
 
-        manager.driver.findElement(By.name("lastname")).click();
-        manager.driver.findElement(By.name("lastname")).sendKeys(contact.lastName());
+        click(By.name("lastname"));
+        type(By.name("lastname"), contact.lastName());
+
     }
 
+    //Удаление контакта
+    public void deleteContact() {
+        selectContact();
+        initDeleteContact();
+        acceptDeleteContact();
+    }
+
+    //Подтвердить создание контакта Enter
     public void submitAddContact() {
-        manager.driver.findElement(By.name("submit")).click();
+       click(By.name("submit"));
     }
 
+    //Вернуться на домашнюю страницу
     public void returnToHomePage() {
-        manager.driver.findElement(By.linkText("home page")).click();
+        click(By.linkText("home page"));
+    }
+
+    //Выбрать контакт
+    public void selectContact() {
+        click(By.name("selected[]"));
+    }
+
+    //Нажать кнопку Delete
+    public void initDeleteContact() {
+        click(By.xpath("//input[@value='Delete']"));
+    }
+
+    //Подтвердить удаление
+    private void acceptDeleteContact() {
+        manager.driver.switchTo().alert().accept();
     }
 }
