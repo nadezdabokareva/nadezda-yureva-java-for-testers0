@@ -95,4 +95,17 @@ public class TriangleTest {
         var triangle1 = new Triangle(b, c, a);
         Assertions.assertEquals(triangle, triangle1);
     }
+
+    @Test
+    public void checkEqualsDiffTriangle7() {
+        var a = 2;
+        var b = 3;
+        var c = 4;
+        var triangle = new Triangle(a, b, c);
+        var triangle1 = new Triangle(c, b, a);
+        Assertions.assertEquals(triangle, triangle1);
+    }
+
+
 }
+
