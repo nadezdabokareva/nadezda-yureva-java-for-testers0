@@ -61,6 +61,7 @@ public class GroupHelper extends HelperBase {
 
     //Удалить выбранную группу
     private void removeSelectedGroup() {
+        selectGroup();
         click(By.name("delete"));
     }
 
@@ -84,10 +85,9 @@ public class GroupHelper extends HelperBase {
         click(By.name("selected[]"));
     }
 
-    //Проверка, существуют ли группы
-    public boolean isGroupPresent() {
+    //Проверка количества групп в спсике
+    public int getCount() {
         openGroupsPage();
-        return manager.isElementPresent(By.name("selected[]"));
+        return manager.driver.findElements(By.name("selected[]")).size();
     }
-
 }
