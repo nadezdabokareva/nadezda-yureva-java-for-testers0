@@ -8,7 +8,7 @@ import tests.TestBase;
 public class GroupCreatingTest extends TestBase {
 
     @Test
-    public void createGroupTest() {
+    public void canCreateGroupTest() {
         int groupCount = app.groups().getCount();
         app.groups().createGroup(new GroupData("gn", "gl", "footer"));
         int newGroupCount = app.groups().getCount();
@@ -25,5 +25,36 @@ public class GroupCreatingTest extends TestBase {
         var emptyGroup = new GroupData();
         var groupWithName = emptyGroup.withName("naaame");
         app.groups().createGroup(groupWithName);
+    }
+
+    //Вариант создания нескольких групп (с разницей в названии в зависимости от цифрв счетчика)
+    @Test
+    public void canCreateMultipleGroupsTest0(){
+        int n = 5;
+
+        int groupCount = app.groups().getCount();
+
+        for (int i = 0; i < n; i++) {
+            app.groups().createGroup(new GroupData("gn" + i,"gl", "footer"));
+        }
+
+        int newGroupCount = app.groups().getCount();
+
+        Assertions.assertEquals(groupCount + n, newGroupCount);
+    }
+
+    @Test
+    public void canCreateMultipleGroupsTest(){
+        int n = 5;
+
+        int groupCount = app.groups().getCount();
+
+        for (int i = 0; i < n; i++) {
+            app.groups().createGroup(new GroupData(randomString(i * 10),"gl", "footer"));
+        }
+
+        int newGroupCount = app.groups().getCount();
+
+        Assertions.assertEquals(groupCount + n, newGroupCount);
     }
 }
