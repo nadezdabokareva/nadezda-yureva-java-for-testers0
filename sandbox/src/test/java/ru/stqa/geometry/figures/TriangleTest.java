@@ -135,6 +135,16 @@ public class TriangleTest {
         Assertions.assertEquals(triangle, triangle1);
     }
 
+    @Test
+    public void checkEqualsDiffTriangle11() {
+        var a = 2;
+        var b = 3;
+        var c = 4;
+        var triangle = new Triangle(2, 2, 3);
+        var triangle1 = new Triangle(2, 3, 3);
+        Assertions.assertNotEquals(triangle, triangle1);
+    }
+
 
 }
 

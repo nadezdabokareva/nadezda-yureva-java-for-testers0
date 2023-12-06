@@ -1,9 +1,6 @@
 package ru.stqa.geometry.figures;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class Triangle {
 
@@ -59,16 +56,18 @@ public class Triangle {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Triangle triangle = (Triangle) o;
-        Set<Double> thisTriangleSides = new HashSet<>(3) {{
+        List<Double> thisTriangleSides = new ArrayList<>(3) {{
             add(a);
             add(b);
             add(c);
         }};
-        Set<Double> innerTriangleSides = new HashSet<>(3) {{
+        List<Double> innerTriangleSides = new ArrayList<>(3) {{
             add(triangle.a);
             add(triangle.b);
             add(triangle.c);
         }};
+        Collections.sort(thisTriangleSides);
+        Collections.sort(innerTriangleSides);
 
         return thisTriangleSides.equals(innerTriangleSides);
     }
