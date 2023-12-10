@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import tests.TestBase;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class DeleteGroupTest extends TestBase {
@@ -25,10 +24,10 @@ public class DeleteGroupTest extends TestBase {
 
     var newGroups = app.groups().getList();
 
-    var expextedList = new ArrayList<>(oldGroups);
-    expextedList.remove(index);
+    var expectedList = new ArrayList<>(oldGroups);
+    expectedList.remove(index);
 
-    Assertions.assertEquals(newGroups, expextedList);
+    Assertions.assertEquals(newGroups, expectedList);
   }
 
   @Test

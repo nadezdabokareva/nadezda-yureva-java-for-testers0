@@ -3,6 +3,9 @@ package manager;
 import model.ContactData;
 import org.openqa.selenium.By;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ContactHelper extends HelperBase {
 
     public ContactHelper (ApplicationManager manager) {
@@ -35,8 +38,8 @@ public class ContactHelper extends HelperBase {
     }
 
     //Удаление контакта
-    public void deleteContact() {
-        selectContact();
+    public void deleteContact(ContactData contactData) {
+        selectContact(contactData);
         initDeleteContact();
         acceptDeleteContact();
     }
@@ -48,11 +51,11 @@ public class ContactHelper extends HelperBase {
 
     //Вернуться на домашнюю страницу
     public void returnToHomePage() {
-        click(By.linkText("home page"));
+        click(By.linkText("home"));
     }
 
     //Выбрать контакт
-    public void selectContact() {
+    public void selectContact(ContactData contactData) {
         click(By.name("selected[]"));
     }
 
@@ -69,4 +72,18 @@ public class ContactHelper extends HelperBase {
     public int getCount() {
         return manager.driver.findElements(By.name("selected[]")).size();
     }
+
+    public List<ContactData> getList() {
+        var contacts = new ArrayList<ContactData>();
+        var spans = manager.driver.findElements(By.name("selected[]"));
+        for (var span : spans) {
+            var firstName = span.getText();
+            var checkBox = manager.driver.findElement(By.name("selected[]"));
+            var id = checkBox.getAttribute("id");
+            contacts.add(new ContactData().withFirstName(firstName));
+        }
+        return contacts;
+
+    }
+
 }
