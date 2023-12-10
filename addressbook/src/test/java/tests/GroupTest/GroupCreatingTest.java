@@ -54,14 +54,13 @@ public class GroupCreatingTest extends TestBase {
 
         newGroups.sort(compareById);
 
-        var expextedList = new ArrayList<>(oldGroups);
+        var expextedList = new ArrayList<GroupData>(oldGroups);
 
         expextedList.add(group.withId(newGroups.get(newGroups.size() - 1).id()).withHeader("").withFooter(""));
 
         expextedList.sort(compareById);
 
         Assertions.assertEquals(newGroups, expextedList);
-
     }
 
     @ParameterizedTest
