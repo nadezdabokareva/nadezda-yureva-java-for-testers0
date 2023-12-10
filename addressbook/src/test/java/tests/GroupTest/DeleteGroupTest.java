@@ -5,27 +5,36 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import tests.TestBase;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class DeleteGroupTest extends TestBase {
 
   @Test
-  public void deleteGroupTest() {
+  public void canDeleteGroupTest() {
     if (app.groups().getCount() == 0) {
-      app.groups().createGroup(new GroupData("gn", "gl", "footer"));
+      app.groups().createGroup(new GroupData("", "gl", "footer", "gn"));
     }
 
-    int groupCount = app.groups().getCount();
+    var oldGroups = app.groups().getList();
+    var rnd = new Random();
+    var index = rnd.nextInt(oldGroups.size());
 
-    app.groups().removeGroup();
+    app.groups().removeGroup(oldGroups.get(index));
 
-    int newGroupCount = app.groups().getCount();
+    var newGroups = app.groups().getList();
 
-    Assertions.assertEquals(groupCount - 1, newGroupCount);
+    var expextedList = new ArrayList<>(oldGroups);
+    expextedList.remove(index);
+
+    Assertions.assertEquals(newGroups, expextedList);
   }
 
   @Test
   public void canDeleteAllGroupsAtOnce() {
     if (app.groups().getCount() == 0) {
-      app.groups().createGroup(new GroupData("gn", "gl", "footer"));
+      app.groups().createGroup(new GroupData("", "gl", "footer", "gn"));
     }
 
     app.groups().removeAllGroup();

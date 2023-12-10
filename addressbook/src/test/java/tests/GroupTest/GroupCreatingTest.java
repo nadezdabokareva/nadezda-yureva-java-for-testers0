@@ -3,13 +3,11 @@ package tests.GroupTest;
 import model.GroupData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import tests.TestBase;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class GroupCreatingTest extends TestBase {
 
@@ -18,19 +16,25 @@ public class GroupCreatingTest extends TestBase {
         for (var name : List.of("", "group name")) {
             for (var header : List.of("", "group header")) {
                 for (var footer : List.of("", "group footer")) {
-                    result.add(new GroupData(name, header, footer));
+                    result.add(new GroupData()
+                            .withName(name)
+                            .withHeader(header)
+                            .withFooter(footer));
                 }
             }
         }
             for (int i = 0; i < 5; i++) {
-                result.add(new GroupData(randomString(i * 10), randomString(i * 10), randomString(i * 10)));
+                result.add(new GroupData()
+                        .withName(randomString(i * 10))
+                        .withHeader(randomString(i * 10))
+                        .withFooter(randomString(i * 10)));
             }
             return result;
     }
 
     public static List<GroupData> negativeGroupProvider() {
         var result = new ArrayList<GroupData>(List.of(
-                new GroupData("group name'", "", "")));
+                new GroupData("", "", "", "group name'")));
         return result;
     }
 
