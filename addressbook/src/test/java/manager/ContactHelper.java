@@ -75,12 +75,16 @@ public class ContactHelper extends HelperBase {
 
     public List<ContactData> getList() {
         var contacts = new ArrayList<ContactData>();
-        var spans = manager.driver.findElements(By.name("selected[]"));
+        var spans = manager.driver.findElements(By.name("entry"));
         for (var span : spans) {
-            var firstName = span.getText();
-            var checkBox = manager.driver.findElement(By.name("selected[]"));
-            var id = checkBox.getAttribute("id");
-            contacts.add(new ContactData().withFirstName(firstName));
+            var firstAndLastName = span.getText();
+            contacts.add(new ContactData().withFirstName(firstAndLastName));
+
+            //можно мделать еще так:
+//            var firstName = span.findElement("неизвестный локатор");
+//            var lastName = span.findElement("неизвестный локатор");
+//            contacts.add(new ContactData().withFirstName(firstName).withLastName(lastName));
+            //но, к сожалению, я не понимаю, как корректнго сделать локатор к аттрибуту td
         }
         return contacts;
 
