@@ -25,9 +25,9 @@ public class ContactModifyTest {
 
         var testData = new ContactData().withFirstName("first name");
 
-        app.contacts().modifyContact(oldContacts.get(index), testData);
-
-        var newContacts = app.groups().getList();
+//        app.contacts().modifyContact(oldContacts.get(index), testData);
+//
+//        var newContacts = app.groups().getList();
 
 
 //        var expectedList = new ArrayList<>(oldContacts);

@@ -19,6 +19,9 @@ public record ContactData(String id, String firstName, String middleName, String
     public ContactData withFirstName(String firstName) {
         return new ContactData(this.id, firstName, this.middleName, this.lastName);
     }
+    public ContactData withId(String id) {
+        return new ContactData(id, this.firstName, this.middleName, this.lastName);
+    }
 
     @Override
     public boolean equals(Object o) {
