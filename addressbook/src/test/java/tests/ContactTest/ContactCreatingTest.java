@@ -7,6 +7,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import tests.TestBase;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class ContactCreatingTest extends TestBase {
@@ -34,31 +35,45 @@ public class ContactCreatingTest extends TestBase {
 
     public static List<ContactData> negativeContactProvider() {
         var result = new ArrayList<ContactData>(List.of(
-                new ContactData("first name'", "", "")));
+                new ContactData(" ", "first name'", "", "")));
         return result;
     }
 
     @ParameterizedTest
     @MethodSource("negativeContactProvider")
     public void cannotCreateContact(ContactData contact) {
-        int contactCount = app.contacts().getCount();
+        var oldContact = app.contacts().getList();
 
         app.contacts().addNewContact(contact);
 
-        int newContactCount = app.contacts().getCount();
+        var newGroups = app.contacts().getList();
 
-        Assertions.assertEquals(contactCount, newContactCount);
+        Assertions.assertEquals(oldContact, newGroups);
     }
 
     @ParameterizedTest
     @MethodSource("contactProvider")
     public void canCreateMultiplyContact(ContactData contact) {
-        int contactCount = app.contacts().getCount();
+        var oldContact = app.contacts().getList();
 
         app.contacts().addNewContact(contact);
 
-        int newContactCount = app.contacts().getCount();
+        var newContact = app.contacts().getList();
 
-        Assertions.assertEquals(contactCount + 1, newContactCount);
+        Comparator<ContactData> compareByFirstName = (o1, o2) -> {
+            return Integer.compare(Integer.parseInt(o1.firstName()), Integer.parseInt(o2.firstName()));
+        };
+
+        newContact.sort(compareByFirstName);
+
+        var expectedList = new ArrayList<ContactData>(oldContact);
+
+        Assertions.assertEquals(oldContact, newContact);
+
+        expectedList.add(contact.withFirstName(newContact.get(newContact.size() - 1).firstName()).withLastName(" "));
+
+        expectedList.sort(compareByFirstName);
+
+        Assertions.assertEquals(newContact, expectedList);
     }
 }

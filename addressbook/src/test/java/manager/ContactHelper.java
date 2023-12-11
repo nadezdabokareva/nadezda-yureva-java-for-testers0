@@ -77,17 +77,14 @@ public class ContactHelper extends HelperBase {
         var contacts = new ArrayList<ContactData>();
         var spans = manager.driver.findElements(By.name("entry"));
         for (var span : spans) {
-            var firstAndLastName = span.getText();
-            contacts.add(new ContactData().withFirstName(firstAndLastName));
-
-            //можно мделать еще так:
-//            var firstName = span.findElement("неизвестный локатор");
-//            var lastName = span.findElement("неизвестный локатор");
-//            contacts.add(new ContactData().withFirstName(firstName).withLastName(lastName));
-            //но, к сожалению, я не понимаю, как корректнго сделать локатор к аттрибуту td
+            var firstName = span.findElement(By.xpath("//tbody/tr/td[3]")).getText();
+            var lastName = span.findElement(By.xpath("//tbody/tr/td[2]")).getText();
+            contacts.add(new ContactData().withFirstName(firstName).withLastName(lastName));
         }
         return contacts;
 
     }
 
+    public void modifyContact(ContactData contact, ContactData modifiedContact) {
+    }
 }
