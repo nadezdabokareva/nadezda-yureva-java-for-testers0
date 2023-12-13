@@ -55,23 +55,25 @@ public class ContactCreatingTest extends TestBase {
     @ParameterizedTest
     @MethodSource("contactProvider")
     public void canCreateMultiplyContact(ContactData contact) {
-        var oldContact = app.contacts().getList();
-
-        app.contacts().addNewContact(contact);
-
-        var newContact = app.contacts().getList();
 
         Comparator<ContactData> compareById = (o1, o2) -> {
             return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
         };
 
+        var oldContact = app.contacts().getList();
+        oldContact.sort(compareById);
+
+        app.contacts().addNewContact(contact);
+
+        var newContact = app.contacts().getList();
         newContact.sort(compareById);
 
         var expectedList = new ArrayList<ContactData>(oldContact);
 
-        Assertions.assertEquals(oldContact, newContact);
-
-        expectedList.add(contact.withFirstName(newContact.get(newContact.size() - 1).firstName()).withLastName(" "));
+        expectedList.add(contact
+                .withId(newContact.get(newContact.size() - 1).id()));
+//                .withFirstName(newContact.get(newContact.size() - 1).firstName())
+//                .withLastName(newContact.get(newContact.size() - 1).lastName()));
 
         expectedList.sort(compareById);
 

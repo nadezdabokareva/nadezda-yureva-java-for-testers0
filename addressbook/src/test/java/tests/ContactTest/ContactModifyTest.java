@@ -1,8 +1,11 @@
 package tests.ContactTest;
 
 import model.ContactData;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Random;
 
 import static tests.TestBase.app;
@@ -19,28 +22,26 @@ public class ContactModifyTest {
                     "last name"));
         }
 
+
         var oldContacts = app.contacts().getList();
         var rnd = new Random();
         var index = rnd.nextInt(oldContacts.size());
 
         var testData = new ContactData().withFirstName("first name");
 
-//        app.contacts().modifyContact(oldContacts.get(index), testData);
-//
-//        var newContacts = app.groups().getList();
+        app.contacts().modifyContact(oldContacts.get(index), testData);
 
+        var newContacts = app.groups().getList();
+//        newContacts.sort(compareById);
 
-//        var expectedList = new ArrayList<>(oldContacts);
-//        expectedList.set(index, testData.withFirstName(oldContacts.get(index).firstName()));
-//
-//        Comparator<GroupData> compareByFirstName = (o1, o2) -> {
-//            return Integer.compare(Integer.parseInt(o1.firstName()), Integer.parseInt(o2.firstName()));
-//        };
-//
-//        newContacts.sort(compareByFirstName);
-//
-//        expectedList.sort(compareByFirstName);
-//
-//        Assertions.assertEquals(newContacts, expectedList);
+        Comparator<ContactData> compareById = (o1, o2) -> {
+            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
+        };
+
+        var expectedList = new ArrayList<>(oldContacts);
+        expectedList.set(index, testData.withId(oldContacts.get(index).id()));
+        expectedList.sort(compareById);
+
+        Assertions.assertEquals(newContacts, expectedList);
     }
 }

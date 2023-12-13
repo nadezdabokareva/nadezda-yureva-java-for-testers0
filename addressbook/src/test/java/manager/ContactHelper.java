@@ -1,13 +1,11 @@
 package manager;
 
-import com.codeborne.selenide.commands.FindByXpath;
 import model.ContactData;
 import org.openqa.selenium.By;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.codeborne.selenide.Selenide.$;
 
 public class ContactHelper extends HelperBase {
 
@@ -15,7 +13,14 @@ public class ContactHelper extends HelperBase {
         super(manager);
     }
 
+    public void openConPage() {
+        if (!manager.isElementPresent(By.name("new"))) {
+            click(By.linkText("groups"));
+        }
+    }
+
     public void addNewContact(ContactData contact) {
+        returnToHomePage();
         initAddNewContact();
         fillContactFields(contact);
         submitAddContact();
@@ -47,6 +52,12 @@ public class ContactHelper extends HelperBase {
         acceptDeleteContact();
     }
 
+    public void deleteAllContact() {
+        selectAllContact();
+        initDeleteContact();
+        acceptDeleteContact();
+    }
+
     //Подтвердить создание контакта Enter
     public void submitAddContact() {
        click(By.name("submit"));
@@ -62,6 +73,13 @@ public class ContactHelper extends HelperBase {
         click(By.name("selected[]"));
     }
 
+    private void selectAllContact() {
+        var checkBoxes = manager.driver.findElements(By.name("selected[]"));
+        for (var checkBox : checkBoxes) {
+            checkBox.click();
+        }
+    }
+
     //Нажать кнопку Delete
     public void initDeleteContact() {
         click(By.xpath("//input[@value='Delete']"));
@@ -73,8 +91,22 @@ public class ContactHelper extends HelperBase {
     }
 
     public int getCount() {
+        returnToHomePage();
         return manager.driver.findElements(By.name("selected[]")).size();
     }
+
+    public void modifyContact(ContactData contact, ContactData modifiedContact) {
+        returnToHomePage();
+        selectContact(contact);
+//        initContactModification();
+        fillContactFields(modifiedContact);
+        submitAddContact();
+        returnToHomePage();
+    }
+
+//    private void initContactModification() {
+//        manager.driver.findElement(By.xpath("/html/body/div[1]/div[4]/form[2]/table/tbody/tr[12]/td[8]"));
+//    }
 
     public List<ContactData> getList() {
         var contacts = new ArrayList<ContactData>();
