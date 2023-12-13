@@ -20,7 +20,6 @@ public class ContactHelper extends HelperBase {
     }
 
     public void addNewContact(ContactData contact) {
-        returnToHomePage();
         initAddNewContact();
         fillContactFields(contact);
         submitAddContact();
@@ -63,6 +62,10 @@ public class ContactHelper extends HelperBase {
        click(By.name("submit"));
     }
 
+    public void submitUpdateContact() {
+        click(By.name("update"));
+    }
+
     //Вернуться на домашнюю страницу
     public void returnToHomePage() {
         click(By.linkText("home"));
@@ -95,18 +98,18 @@ public class ContactHelper extends HelperBase {
         return manager.driver.findElements(By.name("selected[]")).size();
     }
 
-    public void modifyContact(ContactData contact, ContactData modifiedContact) {
-        returnToHomePage();
-        selectContact(contact);
-//        initContactModification();
+    //Метод модификации контакта
+    public void modifyContact(ContactData contact, String index, ContactData modifiedContact) {
+        initContactModification(index);
         fillContactFields(modifiedContact);
-        submitAddContact();
+        submitUpdateContact();
         returnToHomePage();
     }
 
-//    private void initContactModification() {
-//        manager.driver.findElement(By.xpath("/html/body/div[1]/div[4]/form[2]/table/tbody/tr[12]/td[8]"));
-//    }
+    //Релактирование строки с контактом по случайному индексу
+    private void initContactModification(String index) {
+        click(By.xpath("//*[@id='maintable']/tbody/tr[" + index + "]/td[8]"));
+    }
 
     public List<ContactData> getList() {
         var contacts = new ArrayList<ContactData>();
