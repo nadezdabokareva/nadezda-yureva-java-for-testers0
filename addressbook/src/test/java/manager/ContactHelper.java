@@ -1,10 +1,13 @@
 package manager;
 
+import com.codeborne.selenide.commands.FindByXpath;
 import model.ContactData;
 import org.openqa.selenium.By;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.codeborne.selenide.Selenide.$;
 
 public class ContactHelper extends HelperBase {
 
@@ -76,15 +79,13 @@ public class ContactHelper extends HelperBase {
     public List<ContactData> getList() {
         var contacts = new ArrayList<ContactData>();
         var spans = manager.driver.findElements(By.name("entry"));
-        for (var span : spans) {
-//            var contactCount = manager.driver.findElement(By.id("search_count")).getText();
-//            for (int i = 0; i < Integer.parseInt(contactCount); i++) {
-                var checkBox = span.findElement(By.name("selected[]"));
-                var firstName = span.findElement(By.xpath("//tbody/tr/td[" + 3 + "]")).getText();
-                var lastName = span.findElement(By.xpath("//tbody/tr/td[" + 2 + "]")).getText();
-                var id = checkBox.getAttribute("value");
-                contacts.add(new ContactData().withId(id).withFirstName(firstName).withLastName(lastName));
-//            }
+        for (int i = 0; i < spans.size(); i++) {
+            var span = spans.get(i);
+            var checkBox = span.findElement(By.name("selected[]"));
+            var firstName = span.findElement(By.xpath(String.format("//*[@id='maintable']/tbody/tr[%s]/td[3]",i+2 ))).getText();
+            var lastName = span.findElement(By.xpath(String.format("//*[@id='maintable']/tbody/tr[%s]/td[2]",i+2 ))).getText();
+            var id = checkBox.getAttribute("value");
+            contacts.add(new ContactData().withId(id).withFirstName(firstName).withLastName(lastName));
         }
         return contacts;
     }

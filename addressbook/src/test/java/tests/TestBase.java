@@ -1,6 +1,7 @@
 package tests;
 
 import manager.ApplicationManager;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.util.Random;
@@ -29,4 +30,9 @@ public class TestBase {
 //        }
         return result;
     }
+
+//    @AfterEach
+//    public void tearDown() {
+//        app.driver.close();
+//    }
 }
