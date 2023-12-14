@@ -4,6 +4,8 @@ import manager.ApplicationManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.Random;
 
 public class TestBase {
@@ -29,6 +31,13 @@ public class TestBase {
 //            result = result + '\'';
 //        }
         return result;
+    }
+
+    public static String randomFile(String direction) {
+        var fileNames = new File(direction).list();
+        var randomFile = new Random();
+        var index = randomFile.nextInt(fileNames.length);
+        return Paths.get(direction, fileNames[index]).toString();
     }
 
 //    @AfterEach
