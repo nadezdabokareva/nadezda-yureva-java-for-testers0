@@ -1,7 +1,6 @@
 package tests.ContactTest;
 
 import model.ContactData;
-import model.GroupData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -36,7 +35,7 @@ public class ContactCreatingTest extends TestBase {
 
     public static List<ContactData> negativeContactProvider() {
         var result = new ArrayList<ContactData>(List.of(
-                new ContactData(" ", "first name'", "", "")));
+                new ContactData(" ", "first name'", "", "", "")));
         return result;
     }
 
@@ -79,4 +78,16 @@ public class ContactCreatingTest extends TestBase {
 
         Assertions.assertEquals(newContact, expectedList);
     }
+
+    @ParameterizedTest
+    @MethodSource("contactProvider")
+    public void addContactWithPhoto() {
+        var contact = new ContactData()
+                .withFirstName(randomString(10))
+                .withLastName(randomString(10))
+                .withPhoto("src/test/resources/images/avatar.png");
+
+        app.contacts().addNewContact(contact);
+    }
+
 }
