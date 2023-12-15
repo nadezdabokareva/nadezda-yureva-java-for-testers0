@@ -27,7 +27,7 @@ public class DeleteContactTest extends TestBase {
 
         //Получение и сортировка спсика контактов ДО удаления
         var oldContacts = app.contacts().getList();
-//        oldContacts.sort(comparatorById);
+        oldContacts.sort(comparatorById);
 
         //Блок удаления контакта из списка по рандомному числу (по размеру спсика "старых" контактов)
         var rnd = new Random();
