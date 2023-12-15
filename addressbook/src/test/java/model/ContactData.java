@@ -1,8 +1,17 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Objects;
 
-public record ContactData(String id, String firstName, String middleName, String lastName, String photo) {
+public record ContactData(
+        @JsonIgnore
+        String id,
+        String firstName,
+        String middleName,
+        String lastName,
+        @JsonIgnore
+        String photo) {
 
     public ContactData() {
         this(" ", " ", " ", " ", "");
@@ -26,6 +35,8 @@ public record ContactData(String id, String firstName, String middleName, String
     public ContactData withPhoto(String photo) {
         return new ContactData(this.id, this.firstName, this.middleName, this.lastName, photo);
     }
+
+
 
     @Override
     public boolean equals(Object o) {

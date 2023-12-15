@@ -4,6 +4,7 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import common.RandomStringGenerator;
 import model.ContactData;
 import model.GroupData;
@@ -61,9 +62,11 @@ public class Generator {
             this.count = count;
         }
     }
+
     static Params params;
+
     public static void main(String[] args) throws IOException {
-        var generator= new Generator();
+        var generator = new Generator();
         //этот блок анализирует опции командной строки
         // 1 создается парсер командной строки
         params = new Params();
@@ -86,11 +89,16 @@ public class Generator {
             try (var writer = new FileWriter(params.output)) {
                 writer.write(json);
             }
-//            writer.close();
-        } else {
-            throw new IllegalArgumentException("Неизвестный формат" + params.getFormat());
-        }
+
+        } if ("yaml".equals(params.getFormat())) {
+            var mapper = new YAMLMapper();
+            mapper.writeValue(new File((params.output)), data);
+
+          } else {
+             throw new IllegalArgumentException("Неизвестный формат" + params.getFormat());
     }
+
+}
 
     private Object generate() {
         if ("groups".equals(params.getType())) {
@@ -106,6 +114,7 @@ public class Generator {
         var result = new ArrayList<GroupData>();
         for (int i = 0; i < params.getCount(); i++) {
             result.add(new GroupData()
+                            .withId("")
                     .withName(randomString(i * 10))
                     .withHeader(randomString(i * 10))
                     .withFooter(randomString(i * 10)));
