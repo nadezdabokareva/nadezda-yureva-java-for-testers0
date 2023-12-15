@@ -1,5 +1,6 @@
 package tests.GroupTest;
 
+import common.RandomStringGenerator;
 import model.GroupData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -26,9 +27,9 @@ public class GroupCreatingTest extends TestBase {
         }
             for (int i = 0; i < 5; i++) {
                 result.add(new GroupData()
-                        .withName(randomString(i * 10))
-                        .withHeader(randomString(i * 10))
-                        .withFooter(randomString(i * 10)));
+                        .withName(RandomStringGenerator.randomString(i * 10))
+                        .withHeader(RandomStringGenerator.randomString(i * 10))
+                        .withFooter(RandomStringGenerator.randomString(i * 10)));
             }
             return result;
     }

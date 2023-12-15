@@ -1,5 +1,6 @@
 package tests.ContactTest;
 
+import common.RandomStringGenerator;
 import model.ContactData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -26,9 +27,9 @@ public class ContactCreatingTest extends TestBase {
         }
         for (int i = 0; i < 5; i++) {
             result.add(new ContactData()
-                    .withFirstName(randomString(i * 10))
-                    .withMiddleName(randomString(i * 10))
-                    .withLastName(randomString(i * 10)));
+                    .withFirstName(RandomStringGenerator.randomString(i * 10))
+                    .withMiddleName(RandomStringGenerator.randomString(i * 10))
+                    .withLastName(RandomStringGenerator.randomString(i * 10)));
         }
         return result;
     }
@@ -87,8 +88,8 @@ public class ContactCreatingTest extends TestBase {
     @MethodSource("contactProvider")
     public void addContactWithPhoto() {
         var contact = new ContactData()
-                .withFirstName(randomString(10))
-                .withLastName(randomString(10))
+                .withFirstName(RandomStringGenerator.randomString(10))
+                .withLastName(RandomStringGenerator.randomString(10))
                         .withPhoto(randomFile("src/test/resources/images"));
 
         app.contacts().addNewContact(contact);
