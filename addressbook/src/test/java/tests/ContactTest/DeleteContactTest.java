@@ -18,7 +18,8 @@ public class DeleteContactTest extends TestBase {
             app.contacts().addNewContact(new ContactData(
                     " ", "first name",
                     "middle name",
-                    "last name"));
+                    "last name",
+                    ""));
         }
 
         Comparator<ContactData> comparatorById = (o1, o2) -> {

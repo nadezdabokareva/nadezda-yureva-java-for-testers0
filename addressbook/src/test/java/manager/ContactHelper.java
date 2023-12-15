@@ -45,6 +45,8 @@ public class ContactHelper extends HelperBase {
 
         click(By.name("lastname"));
         type(By.name("lastname"), contact.lastName());
+
+        attach(By.name("photo"), contact.photo());
     }
 
     //Удаление контакта

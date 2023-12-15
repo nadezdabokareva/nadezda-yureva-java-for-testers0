@@ -38,7 +38,8 @@ public class ContactCreatingTest extends TestBase {
                 new ContactData(" ",
                         "firstName",
                         " ",
-                        " ")));
+                        " ",
+                        "")));
         return result;
     }
 
@@ -87,7 +88,8 @@ public class ContactCreatingTest extends TestBase {
     public void addContactWithPhoto() {
         var contact = new ContactData()
                 .withFirstName(randomString(10))
-                .withLastName(randomString(10));
+                .withLastName(randomString(10))
+                        .withPhoto(randomFile("src/test/resources/images"));
 
         app.contacts().addNewContact(contact);
     }
