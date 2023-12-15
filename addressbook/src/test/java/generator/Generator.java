@@ -2,8 +2,12 @@ package generator;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import model.GroupData;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static common.RandomStringGenerator.randomString;
@@ -55,7 +59,7 @@ public class Generator {
         }
     }
     static Params params;
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         var generator= new Generator();
         //этот блок анализирует опции командной строки
         // 1 создается парсер командной строки
@@ -65,12 +69,19 @@ public class Generator {
         generator.run();
     }
 
-    private void run() {
+    private void run() throws IOException {
         var data = generate();
         save(data);
     }
 
-    private void save(Object data) {
+    private void save(Object data) throws IOException {
+        if ("json".equals(params.getFormat())) {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.enable(SerializationFeature.INDENT_OUTPUT);
+            mapper.writeValue(new File(params.output), data);
+        } else {
+            throw new IllegalArgumentException("Неизвестный формат" + params.getFormat());
+        }
     }
 
     private Object generate() {
@@ -79,7 +90,7 @@ public class Generator {
         } else if (("contacts".equals(params.getType()))) {
             return generateContacts();
         } else {
-            throw new IllegalArgumentException("Неизвестный формат" + params.getType());
+            throw new IllegalArgumentException("Неизвестный тип" + params.getType());
         }
     }
 
