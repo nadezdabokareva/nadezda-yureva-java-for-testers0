@@ -51,15 +51,15 @@ public class ContactCreatingTest extends TestBase {
         return result;
     }
 
-    public static List<ContactData> negativeContactProvider() {
-        var result = new ArrayList<ContactData>(List.of(
-                new ContactData(" ",
-                        "firstName",
-                        " ",
-                        " ",
-                        "")));
-        return result;
-    }
+//    public static List<ContactData> negativeContactProvider() {
+//        var result = new ArrayList<ContactData>(List.of(
+//                new ContactData(" ",
+//                        "firstName",
+//                        " ",
+//                        " ",
+//                        "")));
+//        return result;
+//    }
 
     @ParameterizedTest
     @MethodSource("negativeContactProvider")

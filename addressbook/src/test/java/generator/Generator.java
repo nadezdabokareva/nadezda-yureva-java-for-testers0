@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import static common.RandomStringGenerator.randomString;
+import static tests.TestBase.randomFile;
 
 public class Generator {
     static class Params {
@@ -128,7 +129,8 @@ public class Generator {
             result.add(new ContactData()
                     .withFirstName(RandomStringGenerator.randomString(i * 10))
                     .withMiddleName(RandomStringGenerator.randomString(i * 10))
-                    .withLastName(RandomStringGenerator.randomString(i * 10)));
+                    .withLastName(RandomStringGenerator.randomString(i * 10))
+                    .withPhoto(randomFile("src/test/resources/images")));
         }
         return result;
     }

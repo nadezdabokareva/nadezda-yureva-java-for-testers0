@@ -10,7 +10,6 @@ public record ContactData(
         String firstName,
         String middleName,
         String lastName,
-        @JsonIgnore
         String photo) {
 
     public ContactData() {
