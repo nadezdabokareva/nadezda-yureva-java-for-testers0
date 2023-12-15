@@ -1,10 +1,14 @@
 package manager;
 
+import com.codeborne.selenide.SelenideElement;
 import model.ContactData;
 import org.openqa.selenium.By;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.codeborne.selenide.Selectors.byTitle;
+import static com.codeborne.selenide.Selenide.$;
 
 
 public class ContactHelper extends HelperBase {
@@ -100,14 +104,31 @@ public class ContactHelper extends HelperBase {
 
     //Метод модификации контакта
     public void modifyContact(ContactData contact, String index, ContactData modifiedContact) {
-        initContactModification(index);
+        selectContact(contact);
+        openContactCard(Integer.parseInt(index));
+        initModifyContact();
         fillContactFields(modifiedContact);
         submitUpdateContact();
         returnToHomePage();
     }
 
-    //Релактирование строки с контактом по случайному индексу
-    private void initContactModification(String index) {
+    //Нажать кнопку Modify в карточке контакта
+    private void initModifyContact() {
+        //вероятно, есть ошибка в названии кнопки в коде стараницы
+        click(By.name("modifiy"));
+    }
+
+    //Открытие карточки контакта по индексу (генерируется в тесте)
+    private void openContactCard(int index) {
+        if (index != 0) {
+            click(By.xpath("//*[@id='maintable']/tbody/tr[" + index + "]/td[7]"));
+        } else if (index == 0) {
+            click(By.xpath("//*[@id='maintable']/tbody/tr[" + (index + 2) + "]/td[7]"));
+        }
+    }
+
+    //Редактирование строки с контактом по индексу (генерируется в тесте)
+    private void editContactByIndex(String index) {
         click(By.xpath("//*[@id='maintable']/tbody/tr[" + index + "]/td[8]"));
     }
 
