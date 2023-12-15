@@ -101,7 +101,7 @@ public class ContactHelper extends HelperBase {
         return manager.driver.findElements(By.name("selected[]")).size();
     }
 
-    //Метод модификации контакта
+    //Метод модификации контакта - был изменен 15.12
     public void modifyContact(ContactData contact, String index, ContactData modifiedContact) {
         selectContact(contact);
         openContactCard(Integer.parseInt(index));
@@ -117,7 +117,7 @@ public class ContactHelper extends HelperBase {
         click(By.name("modifiy"));
     }
 
-    //Открытие карточки контакта по индексу (генерируется в тесте)
+    //Открытие карточки контакта по индексу (генерируется в тесте) - добавлено для релактирования задания 11
     private void openContactCard(int index) {
         if (index != 0) {
             click(By.xpath("//*[@id='maintable']/tbody/tr[" + index + "]/td[7]"));
@@ -131,6 +131,7 @@ public class ContactHelper extends HelperBase {
         click(By.xpath("//*[@id='maintable']/tbody/tr[" + index + "]/td[8]"));
     }
 
+    //Отредактировано 15.12
     public List<ContactData> getList() {
         var contacts = new ArrayList<ContactData>();
         var spans = manager.driver.findElements(By.name("entry"));

@@ -11,6 +11,7 @@ import java.util.Random;
 
 public class GroupModificationTest extends TestBase {
 
+    //Отредактировано 15.12
     @Test
     void canModifyGroup() {
         if (app.groups().getCount() == 0) {
