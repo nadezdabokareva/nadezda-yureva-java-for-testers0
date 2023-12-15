@@ -10,7 +10,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import tests.TestBase;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -30,9 +32,21 @@ public class ContactCreatingTest extends TestBase {
 //                }
 //            }
 //        }
+
+        //чтение файла построчно
+        var json = " ";
+        try (var reader = new FileReader("contacts.json");
+             var breader = new BufferedReader(reader)
+        ) {
+            var line = breader.readLine();
+            while (line != null) {
+                json = json + line;
+                line = breader.readLine();
+            }
+        }
+
         ObjectMapper mapper = new ObjectMapper();
-        var value = mapper.readValue(new File("contacts.json"),
-                new TypeReference<List<ContactData>>() {});
+        var value = mapper.readValue(json, new TypeReference<List<ContactData>>() {});
         result.addAll(value);
         return result;
     }

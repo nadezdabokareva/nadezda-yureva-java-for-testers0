@@ -9,6 +9,7 @@ import model.ContactData;
 import model.GroupData;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -80,7 +81,12 @@ public class Generator {
         if ("json".equals(params.getFormat())) {
             ObjectMapper mapper = new ObjectMapper();
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
-            mapper.writeValue(new File(params.output), data);
+            var json = mapper.writeValueAsString(data);
+
+            try (var writer = new FileWriter(params.output)) {
+                writer.write(json);
+            }
+//            writer.close();
         } else {
             throw new IllegalArgumentException("Неизвестный формат" + params.getFormat());
         }
