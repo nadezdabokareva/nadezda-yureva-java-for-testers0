@@ -1,36 +1,39 @@
 package tests.ContactTest;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import common.RandomStringGenerator;
 import model.ContactData;
+import model.GroupData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import tests.TestBase;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 public class ContactCreatingTest extends TestBase {
 
-    public static List<ContactData> contactProvider() {
+    public static List<ContactData> contactProvider() throws IOException {
         var result = new ArrayList<ContactData>();
-        for (var firstName : List.of("", "first name")) {
-            for (var middleName : List.of("", "middle name")) {
-                for (var lastName : List.of("", "last name")) {
-                    result.add(new ContactData()
-                            .withFirstName(firstName)
-                            .withMiddleName(middleName)
-                            .withLastName(lastName));
-                }
-            }
-        }
-        for (int i = 0; i < 5; i++) {
-            result.add(new ContactData()
-                    .withFirstName(RandomStringGenerator.randomString(i * 10))
-                    .withMiddleName(RandomStringGenerator.randomString(i * 10))
-                    .withLastName(RandomStringGenerator.randomString(i * 10)));
-        }
+//        for (var firstName : List.of("", "first name")) {
+//            for (var middleName : List.of("", "middle name")) {
+//                for (var lastName : List.of("", "last name")) {
+//                    result.add(new ContactData()
+//                            .withFirstName(firstName)
+//                            .withMiddleName(middleName)
+//                            .withLastName(lastName));
+//                }
+//            }
+//        }
+        ObjectMapper mapper = new ObjectMapper();
+        var value = mapper.readValue(new File("contacts.json"),
+                new TypeReference<List<ContactData>>() {});
+        result.addAll(value);
         return result;
     }
 

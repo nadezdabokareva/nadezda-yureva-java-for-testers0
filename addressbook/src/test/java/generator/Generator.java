@@ -4,6 +4,8 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import common.RandomStringGenerator;
+import model.ContactData;
 import model.GroupData;
 
 import java.io.File;
@@ -106,7 +108,14 @@ public class Generator {
     }
 
     private Object generateContacts() {
-        return null;
+        var result = new ArrayList<ContactData>();
+        for (int i = 0; i < params.getCount(); i++) {
+            result.add(new ContactData()
+                    .withFirstName(RandomStringGenerator.randomString(i * 10))
+                    .withMiddleName(RandomStringGenerator.randomString(i * 10))
+                    .withLastName(RandomStringGenerator.randomString(i * 10)));
+        }
+        return result;
     }
 
 
