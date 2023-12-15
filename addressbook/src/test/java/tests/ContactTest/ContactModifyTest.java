@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Random;
 
-import static tests.TestBase.app;
-
 public class ContactModifyTest extends TestBase {
 
     @Test
@@ -21,7 +19,8 @@ public class ContactModifyTest extends TestBase {
                     "",
                      "first name",
                     "middle name",
-                    "last name"));
+                    "last name",
+                            ""));
         }
 
         Comparator<ContactData> compareById = (o1, o2) -> {
