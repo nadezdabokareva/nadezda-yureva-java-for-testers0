@@ -15,12 +15,10 @@ public class ContactModifyTest extends TestBase {
     public void canModifyContact() {
         if (app.contacts().getCount() == 0) {
             app.contacts().addNewContact(new ContactData
-                    (
-                    "",
+                    (" ",
                      "first name",
                     "middle name",
-                    "last name",
-                            ""));
+                    "last name"));
         }
 
         Comparator<ContactData> compareById = (o1, o2) -> {

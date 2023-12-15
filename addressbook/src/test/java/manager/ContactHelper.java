@@ -45,9 +45,6 @@ public class ContactHelper extends HelperBase {
 
         click(By.name("lastname"));
         type(By.name("lastname"), contact.lastName());
-
-        attach(By.name("photo"), contact.photo());
-
     }
 
     //Удаление контакта
@@ -140,10 +137,10 @@ public class ContactHelper extends HelperBase {
         for (int i = 0; i < spans.size(); i++) {
             var span = spans.get(i);
             var checkBox = span.findElement(By.name("selected[]"));
-//            var firstName = manager.driver.findElement(By.xpath(String.format("//*[@id='maintable']/tbody/tr[%s]/td[3]",i+2 ))).getText();
-//            var lastName = manager.driver.findElement(By.xpath(String.format("//*[@id='maintable']/tbody/tr[%s]/td[2]",i+2 ))).getText();
-            var firstName = span.findElement(By.xpath(String.format("//*[@id='maintable']/tbody/tr[%s]/td[3]",i+2 ))).getText();
-            var lastName = span.findElement(By.xpath(String.format("//*[@id='maintable']/tbody/tr[%s]/td[2]",i+2 ))).getText();
+            var firstName = manager.driver.findElement(By.xpath(String.format("//*[@id='maintable']/tbody/tr[%s]/td[3]",i+2 ))).getText();
+            var lastName = manager.driver.findElement(By.xpath(String.format("//*[@id='maintable']/tbody/tr[%s]/td[2]",i+2 ))).getText();
+//            var firstName = span.findElement(By.xpath(String.format("//*[@id='maintable']/tbody/tr[%s]/td[3]",i+2 ))).getText();
+//            var lastName = span.findElement(By.xpath(String.format("//*[@id='maintable']/tbody/tr[%s]/td[2]",i+2 ))).getText();
             var id = checkBox.getAttribute("value");
             contacts.add(new ContactData().withId(id).withFirstName(firstName).withLastName(lastName));
         }

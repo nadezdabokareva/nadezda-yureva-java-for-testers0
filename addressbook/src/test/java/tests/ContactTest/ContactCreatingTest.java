@@ -35,7 +35,10 @@ public class ContactCreatingTest extends TestBase {
 
     public static List<ContactData> negativeContactProvider() {
         var result = new ArrayList<ContactData>(List.of(
-                new ContactData(" ", "first name'", "", "", "")));
+                new ContactData(" ",
+                        "firstName",
+                        " ",
+                        " ")));
         return result;
     }
 
@@ -84,8 +87,7 @@ public class ContactCreatingTest extends TestBase {
     public void addContactWithPhoto() {
         var contact = new ContactData()
                 .withFirstName(randomString(10))
-                .withLastName(randomString(10))
-                .withPhoto(randomFile("src/test/resources/images"));
+                .withLastName(randomString(10));
 
         app.contacts().addNewContact(contact);
     }

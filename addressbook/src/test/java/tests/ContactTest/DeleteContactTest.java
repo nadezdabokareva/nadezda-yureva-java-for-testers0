@@ -18,8 +18,7 @@ public class DeleteContactTest extends TestBase {
             app.contacts().addNewContact(new ContactData(
                     " ", "first name",
                     "middle name",
-                    "last name",
-                    ""));
+                    "last name"));
         }
 
         Comparator<ContactData> comparatorById = (o1, o2) -> {
@@ -28,7 +27,7 @@ public class DeleteContactTest extends TestBase {
 
         //Получение и сортировка спсика контактов ДО удаления
         var oldContacts = app.contacts().getList();
-        oldContacts.sort(comparatorById);
+//        oldContacts.sort(comparatorById);
 
         //Блок удаления контакта из списка по рандомному числу (по размеру спсика "старых" контактов)
         var rnd = new Random();
@@ -43,7 +42,7 @@ public class DeleteContactTest extends TestBase {
         //Создание ожидаемого списка
         var expectedContactsList = new ArrayList<>(oldContacts);
         expectedContactsList.remove(index);
-
+        expectedContactsList.sort(comparatorById);
 
         Assertions.assertEquals(newContacts, expectedContactsList);
     }
