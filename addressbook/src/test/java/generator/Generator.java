@@ -91,7 +91,7 @@ public class Generator {
                 writer.write(json);
             }
 
-        } if ("yaml".equals(params.getFormat())) {
+        } else if ("yaml".equals(params.getFormat())) {
             var mapper = new YAMLMapper();
             mapper.writeValue(new File((params.output)), data);
 
