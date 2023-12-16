@@ -33,7 +33,7 @@ public class ContactModifyTest extends TestBase {
 
         var testData = new ContactData().withFirstName("modification");
 
-        app.contacts().modifyContact(oldContacts.get(index), String.valueOf(index), testData);
+        app.contacts().modifyContact(oldContacts.get(index), index, testData);
 
         var newContacts = app.contacts().getList();
         newContacts.sort(compareById);

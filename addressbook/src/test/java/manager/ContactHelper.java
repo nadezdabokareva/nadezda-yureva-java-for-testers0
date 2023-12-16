@@ -102,9 +102,9 @@ public class ContactHelper extends HelperBase {
     }
 
     //Метод модификации контакта - был изменен 15.12
-    public void modifyContact(ContactData contact, String index, ContactData modifiedContact) {
+    public void modifyContact(ContactData contact, int index, ContactData modifiedContact) {
         selectContact(contact);
-        openContactCard(Integer.parseInt(index));
+        openContactCard(index);
         initModifyContact();
         fillContactFields(modifiedContact);
         submitUpdateContact();
@@ -117,9 +117,14 @@ public class ContactHelper extends HelperBase {
         click(By.name("modifiy"));
     }
 
-    //Открытие карточки контакта по индексу (генерируется в тесте) - добавлено для релактирования задания 11
     private void openContactCard(int index) {
-        if (index != 0) {
+//        click(By.xpath(String.format("//*[@id='maintable'[id='%s']", contact.id())));
+        click(By.xpath(String.format("xpath=(//img[@alt='Details'])[" + index +"]")));
+    }
+
+    //Открытие карточки контакта по индексу (генерируется в тесте) - добавлено для релактирования задания 11
+    private void openContactCardByIndex(int index) {
+        if (index > 0) {
             click(By.xpath("//*[@id='maintable']/tbody/tr[" + index + "]/td[7]"));
         } else if (index == 0) {
             click(By.xpath("//*[@id='maintable']/tbody/tr[" + (index + 2) + "]/td[7]"));
