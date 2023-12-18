@@ -103,7 +103,7 @@ public class ContactHelper extends HelperBase {
     }
 
     //Метод модификации контакта - был изменен 15.12
-    public void modifyContact(ContactData contact, String index, ContactData modifiedContact) {
+    public void modifyContact(ContactData contact, ContactData modifiedContact) {
         selectContact(contact);
         openContactCard(contact);
         initModifyContact();
@@ -118,7 +118,6 @@ public class ContactHelper extends HelperBase {
         click(By.name("modifiy"));
     }
 
-    //Открытие карточки контакта по id
     private void openContactCard(ContactData contact) {
         click(By.xpath(String.format("//a[@href='view.php?id=%s']", contact.id())));
     }
