@@ -46,7 +46,6 @@ public class ContactHelper extends HelperBase {
         click(By.name("lastname"));
         type(By.name("lastname"), contact.lastName());
 
-        attach(By.name("photo"), contact.photo());
     }
 
     //Удаление контакта
@@ -106,7 +105,7 @@ public class ContactHelper extends HelperBase {
     //Метод модификации контакта - был изменен 15.12
     public void modifyContact(ContactData contact, String index, ContactData modifiedContact) {
         selectContact(contact);
-        openContactCard(Integer.parseInt(index));
+        openContactCard(contact);
         initModifyContact();
         fillContactFields(modifiedContact);
         submitUpdateContact();
@@ -119,21 +118,12 @@ public class ContactHelper extends HelperBase {
         click(By.name("modifiy"));
     }
 
-    //Открытие карточки контакта по индексу (генерируется в тесте) - добавлено для релактирования задания 11
-    private void openContactCard(int index) {
-        if (index != 0) {
-            click(By.xpath("//*[@id='maintable']/tbody/tr[" + index + "]/td[7]"));
-        } else if (index == 0) {
-            click(By.xpath("//*[@id='maintable']/tbody/tr[" + (index + 2) + "]/td[7]"));
-        }
+    //Открытие карточки контакта по id
+    private void openContactCard(ContactData contact) {
+        click(By.xpath(String.format("//a[@href='view.php?id=%s']", contact.id())));
     }
 
-    //Редактирование строки с контактом по индексу (генерируется в тесте)
-    private void editContactByIndex(String index) {
-        click(By.xpath("//*[@id='maintable']/tbody/tr[" + index + "]/td[8]"));
-    }
 
-    //Отредактировано 15.12
     public List<ContactData> getList() {
         var contacts = new ArrayList<ContactData>();
         var spans = manager.driver.findElements(By.name("entry"));
@@ -142,8 +132,6 @@ public class ContactHelper extends HelperBase {
             var checkBox = span.findElement(By.name("selected[]"));
             var firstName = manager.driver.findElement(By.xpath(String.format("//*[@id='maintable']/tbody/tr[%s]/td[3]",i+2 ))).getText();
             var lastName = manager.driver.findElement(By.xpath(String.format("//*[@id='maintable']/tbody/tr[%s]/td[2]",i+2 ))).getText();
-//            var firstName = span.findElement(By.xpath(String.format("//*[@id='maintable']/tbody/tr[%s]/td[3]",i+2 ))).getText();
-//            var lastName = span.findElement(By.xpath(String.format("//*[@id='maintable']/tbody/tr[%s]/td[2]",i+2 ))).getText();
             var id = checkBox.getAttribute("value");
             contacts.add(new ContactData().withId(id).withFirstName(firstName).withLastName(lastName));
         }
