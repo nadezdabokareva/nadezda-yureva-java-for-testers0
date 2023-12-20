@@ -104,7 +104,6 @@ public class ContactHelper extends HelperBase {
 
     //Метод модификации контакта - был изменен 15.12
     public void modifyContact(ContactData contact, ContactData modifiedContact) {
-        selectContact(contact);
         openContactCard(contact);
         initModifyContact();
         fillContactFields(modifiedContact);
