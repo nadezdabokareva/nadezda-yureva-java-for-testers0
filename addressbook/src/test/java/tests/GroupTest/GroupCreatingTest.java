@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import common.RandomStringGenerator;
 import model.GroupData;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import tests.TestBase;
@@ -53,11 +54,18 @@ public class GroupCreatingTest extends TestBase {
             return result;
         }
 
-//    public static List<GroupData> negativeGroupProvider() {
-//        var result = new ArrayList<GroupData>(List.of(
-//                new GroupData("", "", "", "group name'")));
-//        return result;
-//    }
+    public static List<GroupData> negativeGroupProvider() {
+        var result = new ArrayList<GroupData>(List.of(
+                new GroupData("", "", "", "group name'")));
+        return result;
+    }
+
+    public static List<GroupData> singleRandomGroupProvider() {
+        return List.of(new GroupData()
+                .withName(RandomStringGenerator.randomString(10))
+                .withHeader(RandomStringGenerator.randomString(20))
+                .withFooter((RandomStringGenerator.randomString(30))));
+    }
 
     @ParameterizedTest
     @MethodSource("groupProvider")
@@ -93,5 +101,46 @@ public class GroupCreatingTest extends TestBase {
         var newGroups = app.groups().getList();
 
         Assertions.assertEquals(newGroups, oldGroups);
+    }
+
+    @ParameterizedTest
+    @MethodSource("singleRandomGroupProvider")
+    public void canCreateGroupsFromDBTest(GroupData group){
+        var oldGroups = app.jdbc().getGroupList();
+
+        app.groups().createGroup(group);
+
+        var newGroups = app.jdbc().getGroupList();
+
+        Comparator<GroupData> compareById = (o1, o2) -> {
+            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
+        };
+
+        newGroups.sort(compareById);
+        var maxId = newGroups.get(newGroups.size() - 1).id();
+
+        var expectedList = new ArrayList<GroupData>(oldGroups);
+
+        expectedList.add(group.withId(maxId));
+
+        expectedList.sort(compareById);
+
+        Assertions.assertEquals(newGroups, expectedList);
+
+    }
+
+    @Test
+    public void checkUIGroupListWithDbGroupLisT(){
+        Comparator<GroupData> compareById = (o1, o2) -> {
+            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
+        };
+
+        var dBGroups = app.jdbc().getGroupList();
+        dBGroups.sort(compareById);
+
+        var uiGroups = app.groups().getList();
+        uiGroups.sort(compareById);
+
+        Assertions.assertEquals(dBGroups, uiGroups);
     }
 }
