@@ -14,11 +14,12 @@ public class GroupModificationTest extends TestBase {
     //Отредактировано 15.12
     @Test
     void canModifyGroup() {
-        if (app.groups().getCount() == 0) {
-            app.groups().createGroup(new GroupData("", "gr header", "gr footer", "gr name"));
+        if (app.hbm().getGroupCount() == 0) {
+            app.hbm().createGroup(new GroupData("", "gl", "footer", "gn"));
         }
 
-        var oldGroups = app.groups().getList();
+
+        var oldGroups = app.hbm().getGroupList();
         var rnd = new Random();
         var index = rnd.nextInt(oldGroups.size());
 
@@ -26,7 +27,7 @@ public class GroupModificationTest extends TestBase {
 
         app.groups().modifyGroup(oldGroups.get(index), testData);
 
-        var newGroups = app.groups().getList();
+        var newGroups = app.hbm().getGroupList();
 
         var expectedList = new ArrayList<>(oldGroups);
         expectedList.set(index, testData.withId(oldGroups.get(index).id()));
