@@ -19,7 +19,7 @@ public class DeleteContactTest extends TestBase {
                     " ", "first name",
                     "middle name",
                     "last name",
-                    ""));
+                    "", ));
         }
 
         Comparator<ContactData> comparatorById = (o1, o2) -> {

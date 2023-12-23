@@ -19,7 +19,7 @@ public class ContactModifyTest extends TestBase {
                      "first name",
                     "middle name",
                     "last name",
-                            ""));
+                            "", ));
         }
 
         Comparator<ContactData> compareById = (o1, o2) -> {

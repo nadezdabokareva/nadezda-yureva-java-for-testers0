@@ -1,6 +1,8 @@
 package manager;
 
+import manager.hbm.ContactRecord;
 import manager.hbm.GroupRecord;
+import model.ContactData;
 import model.GroupData;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AvailableSettings;
@@ -19,6 +21,7 @@ public class HibernateHelper extends HelperBase {
         sessionFactory = new Configuration()
                 //                    .addAnnotatedClass(Book.class)
                 .addAnnotatedClass(GroupRecord.class)
+                .addAnnotatedClass(ContactRecord.class)
                 .setProperty(AvailableSettings.URL, "jdbc:mysql://localhost/addressbook")
                 .setProperty(AvailableSettings.USER, "root")
                 .setProperty(AvailableSettings.PASS, "")
@@ -31,6 +34,30 @@ public class HibernateHelper extends HelperBase {
             result.add(convert(record));
         }
         return result;
+    }
+
+    static List<ContactData> convertContactList(List<ContactRecord> records) {
+        List<ContactData> result = new ArrayList<>();
+        for (var record : records) {
+            result.add(convert(record));
+        }
+        return result;
+    }
+
+    private static ContactData convert(ContactRecord record) {
+        return new ContactData().withId("" +record.id)
+                .withFirstName(record.firstname)
+                .withLastName(record.lastname)
+                .withAddress(record.address);
+    }
+
+    private static ContactRecord convert(ContactData contact){
+        var id = contact.id();
+        if ("".equals(id)) {
+            id = "0";
+        }
+        return new ContactRecord(Integer.parseInt(id), contact.firstName(), contact.lastName(), contact.address());
+
     }
 
     private static GroupData convert(GroupRecord record) {
