@@ -132,14 +132,19 @@ public class ContactCreatingTest extends TestBase {
         var group = app.hbm().getGroupList().get(0);
 
         var oldRelated = app.hbm().getContactInGroups(group);
-//        oldRelated.sort(compareById);
+
 
         app.contacts().addNewContactInGroup(contact, group);
 
         var newRelated = app.hbm().getContactInGroups(group);
-//        newRelated.sort(compareById);
 
-        Assertions.assertEquals(oldRelated, newRelated);
+        var expectedList = new ArrayList<ContactData>(oldRelated);
+
+        expectedList.add(contact
+                .withId(newRelated.get(newRelated.size() - 1).id()));
+        expectedList.sort(compareById);
+
+        Assertions.assertEquals(expectedList, newRelated);
     }
 
 }
