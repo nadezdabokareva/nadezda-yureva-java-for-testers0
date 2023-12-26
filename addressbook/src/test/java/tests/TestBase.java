@@ -1,6 +1,7 @@
 package tests;
 
 import manager.ApplicationManager;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.io.File;
@@ -33,7 +34,7 @@ public class TestBase {
     }
 
 //    @AfterEach
-//    public void tearDown() {
-//        app.driver.close();
+//    public void checkDataBaseConsistency() {
+//        app.jdbc().checkConsistency();
 //    }
 }

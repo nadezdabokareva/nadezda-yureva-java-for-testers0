@@ -38,7 +38,6 @@ public record ContactData(
         return new ContactData(this.id, this.firstName, this.middleName, this.lastName, photo, address);
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

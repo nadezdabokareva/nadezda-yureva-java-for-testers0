@@ -14,8 +14,8 @@ public class DeleteContactTest extends TestBase {
     @Test
     public void canDeleteContact() {
         //Проверка, есть ли контакты
-        if (app.contacts().getCount() == 0) {
-            app.contacts().addNewContact(new ContactData(
+        if (app.hbm().getContactCount() == 0) {
+            app.hbm().createContact(new ContactData(
                     " ", "first name",
                     "middle name",
                     "last name",
@@ -28,7 +28,7 @@ public class DeleteContactTest extends TestBase {
         };
 
         //Получение и сортировка спсика контактов ДО удаления
-        var oldContacts = app.contacts().getList();
+        var oldContacts = app.hbm().getContactList();
         oldContacts.sort(comparatorById);
 
         //Блок удаления контакта из списка по рандомному числу (по размеру спсика "старых" контактов)
@@ -38,7 +38,7 @@ public class DeleteContactTest extends TestBase {
         app.contacts().returnToHomePage();
 
         //Получение списка контактов После удаления
-        var newContacts = app.contacts().getList();
+        var newContacts = app.hbm().getContactList();
         newContacts.sort(comparatorById);
 
         //Создание ожидаемого списка

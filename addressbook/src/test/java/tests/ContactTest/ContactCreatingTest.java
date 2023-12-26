@@ -81,20 +81,18 @@ public class ContactCreatingTest extends TestBase {
             return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
         };
 
-        var oldContact = app.contacts().getList();
+        var oldContact = app.hbm().getContactList();
         oldContact.sort(compareById);
 
         app.contacts().addNewContact(contact);
 
-        var newContact = app.contacts().getList();
+        var newContact = app.hbm().getContactList();
         newContact.sort(compareById);
 
         var expectedList = new ArrayList<ContactData>(oldContact);
 
         expectedList.add(contact
                 .withId(newContact.get(newContact.size() - 1).id()));
-//                .withFirstName(newContact.get(newContact.size() - 1).firstName())
-//                .withLastName(newContact.get(newContact.size() - 1).lastName()));
 
         expectedList.sort(compareById);
 
@@ -132,7 +130,6 @@ public class ContactCreatingTest extends TestBase {
         var group = app.hbm().getGroupList().get(0);
 
         var oldRelated = app.hbm().getContactInGroups(group);
-
 
         app.contacts().addNewContactInGroup(contact, group);
 
