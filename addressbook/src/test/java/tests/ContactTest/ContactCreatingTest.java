@@ -6,17 +6,18 @@ import common.RandomStringGenerator;
 import model.ContactData;
 import model.GroupData;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import tests.TestBase;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 
 public class ContactCreatingTest extends TestBase {
 
@@ -46,7 +47,8 @@ public class ContactCreatingTest extends TestBase {
         }
 
         ObjectMapper mapper = new ObjectMapper();
-        var value = mapper.readValue(json, new TypeReference<List<ContactData>>() {});
+        var value = mapper.readValue(json, new TypeReference<List<ContactData>>() {
+        });
         result.addAll(value);
         return result;
     }
@@ -71,6 +73,26 @@ public class ContactCreatingTest extends TestBase {
         var newGroups = app.contacts().getList();
 
         Assertions.assertEquals(oldContact, newGroups);
+    }
+
+    private static void checkThatGroupExist() {
+        //Проверки на отсутствие групп и контактов
+        if (app.hbm().getGroupCount() == 0) {
+            app.hbm().createGroup(new GroupData("", "gl", "footer", "gn"));
+        }
+    }
+
+    private static void checkThatContactExist() {
+        //Проверки на отсутствие групп и контактов
+        if (app.hbm().getContactCount() == 0) {
+           app.contacts().addNewContact(new ContactData(
+                   "",
+                   "new first name",
+                   "new data",
+                   "new",
+                   "",
+                   ""));
+        }
     }
 
     @ParameterizedTest
@@ -105,14 +127,14 @@ public class ContactCreatingTest extends TestBase {
         var contact = new ContactData()
                 .withFirstName(RandomStringGenerator.randomString(10))
                 .withLastName(RandomStringGenerator.randomString(10))
-                        .withPhoto(randomFile("src/test/resources/images"));
+                .withPhoto(randomFile("src/test/resources/images"));
 
         app.contacts().addNewContact(contact);
     }
 
     @ParameterizedTest
     @MethodSource("contactProvider")
-    public void addContactInGroup() {
+    public void addContactToGroupFromContactCard() {
 
         Comparator<ContactData> compareById = (o1, o2) -> {
             return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
@@ -123,9 +145,7 @@ public class ContactCreatingTest extends TestBase {
                 .withLastName(RandomStringGenerator.randomString(10))
                 .withPhoto(randomFile("src/test/resources/images"));
 
-        if (app.hbm().getGroupCount() == 0) {
-            app.hbm().createGroup(new GroupData("", "gl", "footer", "gn"));
-        }
+        checkThatGroupExist();
 
         var group = app.hbm().getGroupList().get(0);
 
@@ -143,5 +163,46 @@ public class ContactCreatingTest extends TestBase {
 
         Assertions.assertEquals(expectedList, newRelated);
     }
+
+    @Test
+    public void addContactToGroupFromContactList() {
+
+        Comparator<ContactData> compareById = (o1, o2) -> {
+            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
+        };
+
+        //Создание нового контакта для теста
+        var contact = new ContactData()
+            .withFirstName(RandomStringGenerator.randomString(10))
+            .withLastName(RandomStringGenerator.randomString(10))
+            .withPhoto(randomFile("src/test/resources/images"));
+
+        checkThatGroupExist();
+        checkThatContactExist();
+
+        var rnd = new Random();
+        var rndGroup = rnd.nextInt(app.hbm().getGroupList().size());
+        var group = app.hbm().getGroupList().get(rndGroup);
+
+
+        var oldRelated = app.hbm().getContactInGroups(group);
+
+
+        var contacts = app.hbm().getContactList();
+        var index = rnd.nextInt(contacts.size());
+        app.contacts().addExistContactToGroup(contacts.get(index), group);
+
+
+        var newRelated = app.hbm().getContactInGroups(group);
+
+        var expectedList = new ArrayList<ContactData>(oldRelated);
+
+        expectedList.add(contact
+                .withId(newRelated.get(newRelated.size() - 1).id()));
+        expectedList.sort(compareById);
+
+        Assertions.assertEquals(expectedList, expectedList);
+    }
+
 
 }

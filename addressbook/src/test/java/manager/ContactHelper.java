@@ -1,6 +1,5 @@
 package manager;
 
-import com.codeborne.selenide.SelenideElement;
 import model.ContactData;
 import model.GroupData;
 import org.openqa.selenium.By;
@@ -8,9 +7,6 @@ import org.openqa.selenium.support.ui.Select;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.codeborne.selenide.Selectors.byTitle;
-import static com.codeborne.selenide.Selenide.$;
 
 
 public class ContactHelper extends HelperBase {
@@ -34,13 +30,33 @@ public class ContactHelper extends HelperBase {
     public void addNewContactInGroup(ContactData contact, GroupData group) {
         initAddNewContact();
         fillContactFields(contact);
-        selectGroup(group);
+        selectGroupById(group);
         submitAddContact();
         returnToHomePage();
     }
 
-    private void selectGroup(GroupData group) {
+    public void addExistContactToGroup(ContactData contact, GroupData group) {
+    selectContactById(contact);
+    selectGroupToAddContact(group);
+    addContact();
+    }
+
+    private void addContact() {
+        click(By.name("add"));
+    }
+
+    private void selectGroupToAddContact(GroupData group) {
+        new Select(manager.driver.findElement(By.name("to_group"))).selectByValue(group.id());
+    }
+
+    private void selectGroupById(GroupData group) {
         new Select(manager.driver.findElement(By.name("new_group"))).selectByValue(group.id());
+    }
+    private void selectExistedGroupById(GroupData group) {
+        new Select(manager.driver.findElement(By.name("group"))).selectByValue(group.id());
+    }
+    private void selectContactById(ContactData contact) {
+        click(By.cssSelector(String.format("input[id='%s']", contact.id())));
     }
 
     //Нажать кнопку добавить новый контакт Add new
@@ -149,5 +165,21 @@ public class ContactHelper extends HelperBase {
         return contacts;
     }
 
+    public void deleteContactFromGroup( ContactData contact) {
+        selectContactById(contact);
+        removeContactFromGroup();
+    }
 
+    public void selectGroupFromList(GroupData group) {
+        openDropDownGroupList();
+        selectExistedGroupById(group);
+    }
+
+    private void removeContactFromGroup() {
+        click(By.name("remove"));
+    }
+
+    private void openDropDownGroupList() {
+        click(By.name("group"));
+    }
 }
