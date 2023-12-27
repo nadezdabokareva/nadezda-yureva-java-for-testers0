@@ -1,20 +1,22 @@
 package common;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+
 import java.util.Random;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class RandomStringGenerator {
 
     public static String randomString(int n) {
         var rnd = new Random();
-        var result = "";
-        for (int i = 0;  i < n; i++) {
-            result = result + (char)('a' + rnd.nextInt(25));
-        }
-
-        //Эта часть под комментарием, так как иначе у меня создаются негативные кейсы в позитивном тесте
-//        if (n<20) {
-//            result = result + '\'';
-//        }
+        Supplier<Integer> randomNumbers = () -> rnd.nextInt(26);
+        var result = Stream.generate(randomNumbers)
+                .limit(n)
+                .map(i -> 'a' + i)
+                .map(Character::toString)
+                .collect(Collectors.joining());
         return result;
     }
 }
