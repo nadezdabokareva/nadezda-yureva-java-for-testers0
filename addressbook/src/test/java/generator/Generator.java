@@ -13,6 +13,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static common.RandomStringGenerator.randomString;
 import static tests.TestBase.randomFile;
@@ -111,28 +115,24 @@ public class Generator {
         }
     }
 
-    private Object generateGroups() {
-        var result = new ArrayList<GroupData>();
-        for (int i = 0; i < params.getCount(); i++) {
-            result.add(new GroupData()
-                            .withId("")
-                    .withName(randomString(i * 10))
-                    .withHeader(randomString(i * 10))
-                    .withFooter(randomString(i * 10)));
-        }
-        return result;
+    private Object generateData(Supplier<Object> dataSupplier) {
+        return Stream.generate(dataSupplier).limit(params.count).collect(Collectors.toList());
     }
+    private Object generateGroups() {
+        return generateData(() ->
+            new GroupData()
+                    .withId("")
+                    .withName(randomString(10))
+                    .withHeader(randomString(10))
+                    .withFooter(randomString(10)));
+        }
 
     private Object generateContacts() {
-        var result = new ArrayList<ContactData>();
-        for (int i = 0; i < params.getCount(); i++) {
-            result.add(new ContactData()
-                    .withFirstName(RandomStringGenerator.randomString(i * 10))
-                    .withMiddleName(RandomStringGenerator.randomString(i * 10))
-                    .withLastName(RandomStringGenerator.randomString(i * 10))
-                    .withPhoto(randomFile("src/test/resources/images")));
-        }
-        return result;
+        return generateData(() -> new ContactData()
+                .withFirstName(RandomStringGenerator.randomString(10))
+                .withMiddleName(RandomStringGenerator.randomString(10))
+                .withLastName(RandomStringGenerator.randomString(10))
+                .withPhoto(randomFile("src/test/resources/images")));
     }
 
 

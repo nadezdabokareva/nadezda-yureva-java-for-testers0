@@ -19,6 +19,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 public class GroupCreatingTest extends TestBase {
 
@@ -60,11 +62,12 @@ public class GroupCreatingTest extends TestBase {
         return result;
     }
 
-    public static List<GroupData> singleRandomGroupProvider() {
-        return List.of(new GroupData()
+    public static Stream<GroupData> singleRandomGroupProvider() {
+        Supplier<GroupData> randomGroup = () -> new GroupData()
                 .withName(RandomStringGenerator.randomString(10))
                 .withHeader(RandomStringGenerator.randomString(20))
-                .withFooter((RandomStringGenerator.randomString(30))));
+                .withFooter((RandomStringGenerator.randomString(30)));
+        return Stream.generate(randomGroup).limit(3);
     }
 
     @ParameterizedTest
