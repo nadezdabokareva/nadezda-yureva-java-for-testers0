@@ -80,9 +80,7 @@ public class HibernateHelper extends HelperBase {
     }
 
     public long getGroupCount() {
-        return sessionFactory.fromSession(session -> {
-            return session.createQuery("select count (*) from GroupRecord", Long.class).getSingleResult();
-        });
+        return sessionFactory.fromSession(session -> session.createQuery("select count (*) from GroupRecord", Long.class).getSingleResult());
     }
 
     public void createGroup(GroupData groupData) {
