@@ -16,16 +16,22 @@ public class ContactRecord {
     public String firstname;
     public String lastname;
     public String address;
+    public String mobile;
+    public String home;
+    public String work;
+    public String phone2;
+
 
     public ContactRecord(){
 
     }
 
-    public ContactRecord (int id, String firstname, String lastname, String address) {
+    public ContactRecord (int id, String firstname, String lastname, String address
+                            ) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.address = address;
     }
-
+//    String mobile, String home, String work, String secondary
 }

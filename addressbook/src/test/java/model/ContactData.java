@@ -10,32 +10,49 @@ public record ContactData(
         String firstName,
         String middleName,
         String lastName,
-        String photo, String address) {
+        String photo,
+        String address,
+        String mobile,
+        String home,
+        String work,
+        String phone2) {
 
     public ContactData() {
-        this(" ", " ", " ", " ", "", "");
+        this(" ", " ", " ", " ", "", "", "", "", "", "");
     }
 
     public ContactData withMiddleName (String middleName) {
-        return new ContactData(this.id, this.firstName, middleName, this.lastName, "", this.address);
+        return new ContactData(this.id, this.firstName, middleName, this.lastName, "", this.address, this.home, this.mobile, this.work, this.phone2);
     }
 
     public ContactData withLastName (String lastName) {
-        return new ContactData(this.id, this.firstName, this.middleName, lastName, this.photo, this.address);
+        return new ContactData(this.id, this.firstName, this.middleName, lastName, this.photo, this.address, this.home, this.mobile, this.work, this.phone2);
     }
 
     public ContactData withFirstName(String firstName) {
-        return new ContactData(this.id, firstName, this.middleName, this.lastName, this.photo, this.address);
+        return new ContactData(this.id, firstName, this.middleName, this.lastName, this.photo, this.address, this.home, this.mobile, this.work, this.phone2);
     }
     public ContactData withId(String id) {
-        return new ContactData(id, this.firstName, this.middleName, this.lastName, this.photo, this.address);
+        return new ContactData(id, this.firstName, this.middleName, this.lastName, this.photo, this.address, this.home, this.mobile, this.work, this.phone2);
     }
 
     public ContactData withPhoto(String photo) {
-        return new ContactData(this.id, this.firstName, this.middleName, this.lastName, photo, this.address);
+        return new ContactData(this.id, this.firstName, this.middleName, this.lastName, photo, this.address, this.home, this.mobile, this.work, this.phone2);
     }
     public ContactData withAddress(String address) {
-        return new ContactData(this.id, this.firstName, this.middleName, this.lastName, photo, address);
+        return new ContactData(this.id, this.firstName, this.middleName, this.lastName, this.photo, address, this.home, this.mobile, this.work, this.phone2);
+    }
+    public ContactData withHome(String home) {
+        return new ContactData(this.id, this.firstName, this.middleName, this.lastName, this.photo, this.address, home, this.mobile, this.work, this.phone2);
+    }
+    public ContactData withMobile(String mobile) {
+        return new ContactData(this.id, this.firstName, this.middleName, this.lastName, this.photo, this.address, this.home, mobile, this.work, this.phone2);
+    }
+    public ContactData withWork(String work) {
+        return new ContactData(this.id, this.firstName, this.middleName, this.lastName, this.photo, this.address, this.home, this.mobile, work, this.phone2);
+    }
+    public ContactData withSecondary(String secondary) {
+        return new ContactData(this.id, this.firstName, this.middleName, this.lastName, this.photo, this.address, this.home, this.mobile, this.work, secondary);
     }
 
     @Override

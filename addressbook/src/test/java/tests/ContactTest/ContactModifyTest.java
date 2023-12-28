@@ -1,7 +1,6 @@
 package tests.ContactTest;
 
 import model.ContactData;
-import model.GroupData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import tests.TestBase;
@@ -21,7 +20,7 @@ public class ContactModifyTest extends TestBase {
                     "middle name",
                     "last name",
                             "",
-                            ""));
+                            "", "", "", "", ""));
         }
 
         Comparator<ContactData> compareById = (o1, o2) -> {
@@ -57,7 +56,7 @@ public class ContactModifyTest extends TestBase {
                     "middle name",
                     "last name",
                     "",
-                    ""));
+                    "", "", "", "", ""));
         }
 
         Comparator<ContactData> compareById = (o1, o2) -> {

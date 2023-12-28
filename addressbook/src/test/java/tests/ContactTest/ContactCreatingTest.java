@@ -91,7 +91,7 @@ public class ContactCreatingTest extends TestBase {
                    "new data",
                    "new",
                    "",
-                   ""));
+                   "", "", "", "", ""));
         }
     }
 
