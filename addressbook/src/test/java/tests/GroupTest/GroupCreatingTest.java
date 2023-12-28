@@ -11,15 +11,13 @@ import org.junit.jupiter.params.provider.MethodSource;
 import tests.TestBase;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class GroupCreatingTest extends TestBase {
@@ -62,7 +60,7 @@ public class GroupCreatingTest extends TestBase {
         return result;
     }
 
-    public static Stream<GroupData> singleRandomGroupProvider() {
+    public static Stream<GroupData> randomGroupProvider() {
         Supplier<GroupData> randomGroup = () -> new GroupData()
                 .withName(RandomStringGenerator.randomString(10))
                 .withHeader(RandomStringGenerator.randomString(20))
@@ -79,19 +77,11 @@ public class GroupCreatingTest extends TestBase {
 
         var newGroups = app.groups().getList();
 
-        Comparator<GroupData> compareById = (o1, o2) -> {
-            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
-        };
-
-        newGroups.sort(compareById);
-
         var expectedList = new ArrayList<GroupData>(oldGroups);
 
         expectedList.add(group.withId(newGroups.get(newGroups.size() - 1).id()).withHeader("").withFooter(""));
 
-        expectedList.sort(compareById);
-
-        Assertions.assertEquals(newGroups, expectedList);
+        Assertions.assertEquals(Set.copyOf(newGroups), Set.copyOf(expectedList));
     }
 
     @ParameterizedTest
@@ -107,7 +97,7 @@ public class GroupCreatingTest extends TestBase {
     }
 
     @ParameterizedTest
-    @MethodSource("singleRandomGroupProvider")
+    @MethodSource("randomGroupProvider")
     public void canCreateGroupsFromDBTest(GroupData group){
         var oldGroups = app.jdbc().getGroupList();
 
@@ -115,40 +105,28 @@ public class GroupCreatingTest extends TestBase {
 
         var newGroups = app.jdbc().getGroupList();
 
-        Comparator<GroupData> compareById = (o1, o2) -> {
-            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
-        };
-
-        newGroups.sort(compareById);
         var maxId = newGroups.get(newGroups.size() - 1).id();
 
         var expectedList = new ArrayList<GroupData>(oldGroups);
 
         expectedList.add(group.withId(maxId));
 
-        expectedList.sort(compareById);
-
-        Assertions.assertEquals(newGroups, expectedList);
+        Assertions.assertEquals(Set.copyOf(newGroups), Set.copyOf(expectedList));
 
     }
 
     @Test
     public void checkUIGroupListWithDbGroupLisT(){
-        Comparator<GroupData> compareById = (o1, o2) -> {
-            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
-        };
 
         var dBGroups = app.jdbc().getGroupList();
-        dBGroups.sort(compareById);
 
         var uiGroups = app.groups().getList();
-        uiGroups.sort(compareById);
 
-        Assertions.assertEquals(dBGroups, uiGroups);
+        Assertions.assertEquals(Set.copyOf(dBGroups), Set.copyOf(uiGroups));
     }
 
     @ParameterizedTest
-    @MethodSource("singleRandomGroupProvider")
+    @MethodSource("randomGroupProvider")
     public void canCreateGroupsWithHbmTest(GroupData group){
         var oldGroups = app.hbm().getGroupList();
 
@@ -156,20 +134,14 @@ public class GroupCreatingTest extends TestBase {
 
         var newGroups = app.hbm().getGroupList();
 
-        Comparator<GroupData> compareById = (o1, o2) -> {
-            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
-        };
-
-        newGroups.sort(compareById);
-        var maxId = newGroups.get(newGroups.size() - 1).id();
+        var extraGroups = newGroups.stream().filter(g -> ! oldGroups.contains(g)).toList();
+        var newId = extraGroups.get(0).id();
 
         var expectedList = new ArrayList<GroupData>(oldGroups);
 
-        expectedList.add(group.withId(maxId));
+        expectedList.add(group.withId(newId));
 
-        expectedList.sort(compareById);
-
-        Assertions.assertEquals(newGroups, expectedList);
+        Assertions.assertEquals(Set.copyOf(newGroups), Set.copyOf(expectedList));;
 
     }
 }

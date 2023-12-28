@@ -1,17 +1,19 @@
 package tests.GroupTest;
 
+import common.RandomStringGenerator;
 import model.GroupData;
+import net.bytebuddy.utility.RandomString;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import tests.TestBase;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Random;
+import java.util.Set;
 
 public class GroupModificationTest extends TestBase {
 
-    //Отредактировано 15.12
     @Test
     void canModifyGroup() {
         if (app.hbm().getGroupCount() == 0) {
@@ -23,7 +25,7 @@ public class GroupModificationTest extends TestBase {
         var rnd = new Random();
         var index = rnd.nextInt(oldGroups.size());
 
-        var testData = new GroupData().withName("modified group");
+        var testData = new GroupData().withName(RandomStringUtils.randomAlphabetic(10));
 
         app.groups().modifyGroup(oldGroups.get(index), testData);
 
@@ -32,15 +34,9 @@ public class GroupModificationTest extends TestBase {
         var expectedList = new ArrayList<>(oldGroups);
         expectedList.set(index, testData.withId(oldGroups.get(index).id()));
 
-        Comparator<GroupData> compareById = (o1, o2) -> {
-            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
-        };
 
-        newGroups.sort(compareById);
 
-        expectedList.sort(compareById);
-
-        Assertions.assertEquals(newGroups, expectedList);
+        Assertions.assertEquals(Set.copyOf(newGroups), Set.copyOf(expectedList));
     }
 
 }
