@@ -55,7 +55,7 @@ public class HibernateHelper extends HelperBase {
         if ("".equals(id)) {
             id = "0";
         }
-        return new ContactRecord(Integer.parseInt(id), contact.firstName(), contact.lastName(), contact.address());
+        return new ContactRecord(Integer.parseInt(id), contact.firstName(), contact.middleName(), contact.lastName(), contact.address());
 
     }
 
@@ -91,6 +91,13 @@ public class HibernateHelper extends HelperBase {
             session.getTransaction().commit();
         });
     }
+    public void createContact(ContactData contactData) {
+        sessionFactory.inSession(session -> {
+            session.getTransaction().begin();
+            session.persist(convert(contactData));
+            session.getTransaction().commit();
+        });
+    }
 
     public List<ContactData> getContactInGroups(GroupData group) {
         return sessionFactory.fromSession(session -> {
@@ -110,12 +117,5 @@ public class HibernateHelper extends HelperBase {
         });
     }
 
-    public ContactData createContact(ContactData contactData) {
-        sessionFactory.inSession(session -> {
-            session.getTransaction().begin();
-            session.persist(convert(contactData));
-            session.getTransaction().commit();
-        });
-        return contactData;
-    }
+
 }

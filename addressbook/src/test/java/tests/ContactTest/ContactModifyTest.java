@@ -8,6 +8,9 @@ import tests.TestBase;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Random;
+import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ContactModifyTest extends TestBase {
 
@@ -23,12 +26,8 @@ public class ContactModifyTest extends TestBase {
                             "", "", "", "", ""));
         }
 
-        Comparator<ContactData> compareById = (o1, o2) -> {
-            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
-        };
 
         var oldContacts = app.contacts().getList();
-        oldContacts.sort(compareById);
 
         var rnd = new Random();
         var index = rnd.nextInt(oldContacts.size());
@@ -38,13 +37,11 @@ public class ContactModifyTest extends TestBase {
         app.contacts().modifyContact(oldContacts.get(index), testData);
 
         var newContacts = app.contacts().getList();
-        newContacts.sort(compareById);
 
         var expectedList = new ArrayList<>(oldContacts);
         expectedList.set(index, testData.withId(oldContacts.get(index).id()));
-        expectedList.sort(compareById);
 
-        Assertions.assertEquals(newContacts, expectedList);
+       assertEquals(Set.copyOf(newContacts), Set.copyOf(expectedList));
     }
 
     @Test
@@ -59,12 +56,8 @@ public class ContactModifyTest extends TestBase {
                     "", "", "", "", ""));
         }
 
-        Comparator<ContactData> compareById = (o1, o2) -> {
-            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
-        };
 
         var oldContacts = app.hbm().getContactList();
-        oldContacts.sort(compareById);
 
         var rnd = new Random();
         var index = rnd.nextInt(oldContacts.size());
@@ -74,12 +67,10 @@ public class ContactModifyTest extends TestBase {
         app.contacts().modifyContact(oldContacts.get(index), testData);
 
         var newContacts = app.contacts().getList();
-        newContacts.sort(compareById);
 
         var expectedList = new ArrayList<>(oldContacts);
         expectedList.set(index, testData.withId(oldContacts.get(index).id()));
-        expectedList.sort(compareById);
 
-        Assertions.assertEquals(newContacts, expectedList);
+        assertEquals(Set.copyOf(newContacts), Set.copyOf(expectedList));
     }
 }

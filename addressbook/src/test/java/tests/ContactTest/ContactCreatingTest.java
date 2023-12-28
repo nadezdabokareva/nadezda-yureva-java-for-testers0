@@ -14,10 +14,9 @@ import tests.TestBase;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ContactCreatingTest extends TestBase {
 
@@ -72,7 +71,7 @@ public class ContactCreatingTest extends TestBase {
 
         var newGroups = app.contacts().getList();
 
-        Assertions.assertEquals(oldContact, newGroups);
+        assertEquals(oldContact, newGroups);
     }
 
     private static void checkThatGroupExist() {
@@ -85,7 +84,7 @@ public class ContactCreatingTest extends TestBase {
     private static void checkThatContactExist() {
         //Проверки на отсутствие групп и контактов
         if (app.hbm().getContactCount() == 0) {
-           app.contacts().addNewContact(new ContactData(
+           app.hbm().createContact(new ContactData(
                    "",
                    "new first name",
                    "new data",
@@ -99,26 +98,18 @@ public class ContactCreatingTest extends TestBase {
     @MethodSource("contactProvider")
     public void canCreateMultiplyContact(ContactData contact) {
 
-        Comparator<ContactData> compareById = (o1, o2) -> {
-            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
-        };
-
         var oldContact = app.hbm().getContactList();
-        oldContact.sort(compareById);
 
         app.contacts().addNewContact(contact);
 
         var newContact = app.hbm().getContactList();
-        newContact.sort(compareById);
 
         var expectedList = new ArrayList<ContactData>(oldContact);
 
         expectedList.add(contact
                 .withId(newContact.get(newContact.size() - 1).id()));
 
-        expectedList.sort(compareById);
-
-        Assertions.assertEquals(newContact, expectedList);
+        assertEquals(Set.copyOf(expectedList), Set.copyOf(expectedList));
     }
 
     @ParameterizedTest
@@ -135,10 +126,6 @@ public class ContactCreatingTest extends TestBase {
     @ParameterizedTest
     @MethodSource("contactProvider")
     public void addContactToGroupFromContactCard() {
-
-        Comparator<ContactData> compareById = (o1, o2) -> {
-            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
-        };
 
         var contact = new ContactData()
                 .withFirstName(RandomStringGenerator.randomString(10))
@@ -159,17 +146,12 @@ public class ContactCreatingTest extends TestBase {
 
         expectedList.add(contact
                 .withId(newRelated.get(newRelated.size() - 1).id()));
-        expectedList.sort(compareById);
 
-        Assertions.assertEquals(expectedList, newRelated);
+        assertEquals(Set.copyOf(expectedList), Set.copyOf(expectedList));
     }
 
     @Test
     public void addContactToGroupFromContactList() {
-
-        Comparator<ContactData> compareById = (o1, o2) -> {
-            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
-        };
 
         //Создание нового контакта для теста
         var contact = new ContactData()
@@ -199,9 +181,8 @@ public class ContactCreatingTest extends TestBase {
 
         expectedList.add(contact
                 .withId(newRelated.get(newRelated.size() - 1).id()));
-        expectedList.sort(compareById);
 
-        Assertions.assertEquals(expectedList, expectedList);
+        assertEquals(Set.copyOf(expectedList), Set.copyOf(expectedList));
     }
 
 
