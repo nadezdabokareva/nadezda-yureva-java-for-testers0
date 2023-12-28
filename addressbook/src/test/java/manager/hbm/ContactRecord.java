@@ -26,9 +26,9 @@ public class ContactRecord {
 //    public String company = "";
 //    public String title = "";
 //    public String fax = "";
-//    public String email = "";
-//    public String email2 = "";
-//    public String email3 = "";
+    public String email;
+    public String email2;
+    public String email3;
 //    public String im = "";
 //    public String im2 = "";
 //    public String im3 = "";

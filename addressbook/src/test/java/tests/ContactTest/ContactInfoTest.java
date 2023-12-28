@@ -28,6 +28,52 @@ public class ContactInfoTest extends TestBase {
         assertEquals(expectedPhoneList, phonesFromDbList);
     }
 
+    @Test
+    public void testCheckOneContactPhones() {
+        checkThatContactExist();
+
+        var contacts = app.hbm().getContactList();
+        var contact = contacts.get(new Random().nextInt(contacts.size()));
+        var phonesFromDbList = app.contacts().getPhones(contact);
+        var expectedPhoneList =
+                //Что-то не так с полем home: когда номер телефона там заполнен, то он не воспринимется системой и не добавляется в стрим
+                Stream.of(contact.home(), contact.mobile(), contact.work(), contact.secondary())
+                        .filter(s -> s != null && !"".equals(s))
+                        .collect(Collectors.joining("\n"));
+
+        assertEquals(expectedPhoneList, phonesFromDbList);
+    }
+
+    @Test
+    public void testCheckOneContactPostAddress() {
+        checkThatContactExist();
+
+        var contacts = app.hbm().getContactList();
+        var contact = contacts.get(new Random().nextInt(contacts.size()));
+        var postAddressesFromDbList = app.contacts().getPostAddress(contact);
+        var expectedPostAddressList =
+                Stream.of(contact.address())
+                        .filter(s -> s != null && !"".equals(s))
+                        .collect(Collectors.joining("\n"));
+
+        assertEquals(expectedPostAddressList, postAddressesFromDbList);
+    }
+
+    @Test
+    public void testCheckOneContactMail() {
+        checkThatContactExist();
+
+        var contacts = app.hbm().getContactList();
+        var contact = contacts.get(new Random().nextInt(contacts.size()));
+        var emailsFromDbList = app.contacts().getMailAddress(contact);
+        var expectedEmailsList =
+                Stream.of(contact.email(), contact.email2(), contact.email3())
+                        .filter(s -> s != null && !"".equals(s))
+                        .collect(Collectors.joining("\n"));
+
+        assertEquals(expectedEmailsList, emailsFromDbList);
+    }
+
     private static void checkThatContactExist() {
         if (app.hbm().getContactCount() == 0) {
             app.hbm().createContact(new ContactData("",
@@ -39,7 +85,10 @@ public class ContactInfoTest extends TestBase {
                     "",
                     RandomStringUtils.randomNumeric(6),
                     "",
-                    RandomStringUtils.randomNumeric(6)));
+                    RandomStringUtils.randomNumeric(6),
+                    RandomStringUtils.randomAlphabetic(10)+"@",
+                    "",
+                    ""));
         }
     }
 }

@@ -1,12 +1,10 @@
 package tests.ContactTest;
 
 import model.ContactData;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import tests.TestBase;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Random;
 import java.util.Set;
 
@@ -23,7 +21,7 @@ public class ContactModifyTest extends TestBase {
                     "middle name",
                     "last name",
                             "",
-                            "", "", "", "", ""));
+                            "", "", "", "", "", "", "", ""));
         }
 
 
@@ -46,16 +44,7 @@ public class ContactModifyTest extends TestBase {
 
     @Test
     public void canModifyHbmContact() {
-        if (app.hbm().getContactCount() == 0) {
-            app.hbm().createContact(new ContactData(
-                    " ",
-                    "first name",
-                    "middle name",
-                    "last name",
-                    "",
-                    "", "", "", "", ""));
-        }
-
+        checkThatContactExist();
 
         var oldContacts = app.hbm().getContactList();
 
@@ -72,5 +61,17 @@ public class ContactModifyTest extends TestBase {
         expectedList.set(index, testData.withId(oldContacts.get(index).id()));
 
         assertEquals(Set.copyOf(newContacts), Set.copyOf(expectedList));
+    }
+
+    private static void checkThatContactExist() {
+        if (app.hbm().getContactCount() == 0) {
+            app.hbm().createContact(new ContactData(
+                    "",
+                    "first name",
+                    "middle name",
+                    "last name",
+                    "",
+                    "", "", "", "", "", "", "", ""));
+        }
     }
 }
