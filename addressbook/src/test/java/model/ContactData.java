@@ -15,7 +15,10 @@ public record ContactData(
         String mobile,
         String home,
         String work,
-        String secondary, String email, String email2, String email3) {
+        String secondary,
+        String email,
+        String email2,
+        String email3) {
 
     public ContactData() {
         this(" ", " ", " ", " ", "", "", "", "", "", "", "", "", "");

@@ -40,20 +40,10 @@ public class HibernateHelper extends HelperBase {
     }
 
     private static ContactData convert(ContactRecord record) {
-        return new ContactData().withId("" + record.id)
-                .withFirstName(record.firstname)
-                .withLastName(record.lastname)
-                .withAddress(record.address)
-                .withHome(record.home)
-                .withMobile(record.mobile)
-                .withWork(record.work)
-                .withSecondary(record.phone2)
-                .withEmail(record.email)
-                .withEmail2(record.email2)
-                .withEmail3(record.email3);
+        return new ContactData("" + record.id, record.firstname, record.middlename, record.lastname, record.photo,
+                record.address, record.mobile, record.home, record.work, record.phone2,
+                record.email, record.email2, record.email3);
     }
-
-
 
     private static GroupData convert(GroupRecord record) {
         return new GroupData("" + record.id, record.name, record.header, record.footer);
@@ -71,7 +61,9 @@ public class HibernateHelper extends HelperBase {
         if ("".equals(id)) {
             id = "0";
         }
-        return new ContactRecord(Integer.parseInt(id), contact.firstName(), contact.middleName(), contact.lastName(), contact.address());
+        return new ContactRecord(Integer.parseInt(id), contact.firstName(), contact.middleName(), contact.lastName(),
+                contact.photo(), contact.address(), contact.mobile(), contact.home(), contact.work(), contact.secondary(),
+                contact.email(), contact.email2(), contact.email3());
     }
 
 
