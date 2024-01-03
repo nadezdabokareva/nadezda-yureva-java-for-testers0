@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ContactInfoTest extends TestBase {
 
     @Test
-    public void testPhones() {
+    public void testExamplePhones() {
         checkThatContactExist();
 
         var contacts = app.hbm().getContactList();
@@ -26,10 +26,12 @@ public class ContactInfoTest extends TestBase {
         ));
         var phonesFromDbList = app.contacts().getPhones();
         assertEquals(expectedPhoneList, phonesFromDbList);
+
+
     }
 
     @Test
-    public void testCheckOneContactPhones() {
+    public void testCheckOneContact() {
         checkThatContactExist();
 
         var contacts = app.hbm().getContactList();
@@ -42,14 +44,8 @@ public class ContactInfoTest extends TestBase {
                         .collect(Collectors.joining("\n"));
 
         assertEquals(expectedPhoneList, phonesFromDbList);
-    }
 
-    @Test
-    public void testCheckOneContactPostAddress() {
-        checkThatContactExist();
-
-        var contacts = app.hbm().getContactList();
-        var contact = contacts.get(new Random().nextInt(contacts.size()));
+        //проверка почтового адреса
         var postAddressesFromDbList = app.contacts().getPostAddress(contact);
         var expectedPostAddressList =
                 Stream.of(contact.address())
@@ -57,14 +53,8 @@ public class ContactInfoTest extends TestBase {
                         .collect(Collectors.joining("\n"));
 
         assertEquals(expectedPostAddressList, postAddressesFromDbList);
-    }
 
-    @Test
-    public void testCheckOneContactMail() {
-        checkThatContactExist();
-
-        var contacts = app.hbm().getContactList();
-        var contact = contacts.get(new Random().nextInt(contacts.size()));
+        //проверка электронного почтового адреса
         var emailsFromDbList = app.contacts().getMailAddress(contact);
         var expectedEmailsList =
                 Stream.of(contact.email(), contact.email2(), contact.email3())
