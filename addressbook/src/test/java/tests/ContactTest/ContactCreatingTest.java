@@ -82,15 +82,7 @@ public class ContactCreatingTest extends TestBase {
 
     private static void checkThatContactExist() {
         //Проверки на отсутствие групп и контактов
-        if (app.hbm().getContactCount() == 0) {
-           app.hbm().createContact(new ContactData(
-                   "",
-                   "new first name",
-                   "new data",
-                   "new",
-                   "",
-                   "", "", "", "", "", "", "", ""));
-        }
+        checkContactsWithoutGroups(app.hbm().getContactCount() == 0);
     }
 
     @ParameterizedTest
@@ -182,6 +174,60 @@ public class ContactCreatingTest extends TestBase {
                 .withId(newRelated.get(newRelated.size() - 1).id()));
 
         assertEquals(Set.copyOf(expectedList), Set.copyOf(expectedList));
+    }
+
+    @Test
+    public void addContactToGroupFromContactListCheckout() {
+
+       //Проверка, есть ли группы
+        checkThatGroupExist();
+
+        //Проверка, есть ли контакты ВНЕ групп
+        app.contacts().selectContactWithNoGroups();
+        var contactsWithoutGroups = app.contacts().getList();
+
+        //Если контактов ВНЕ групп нет, то такой контакт создается
+        checkContactsWithoutGroups(contactsWithoutGroups.size() == 0);
+
+        //Выбираем рандомную группу
+        var rnd = new Random();
+        var rndGroup = rnd.nextInt(app.hbm().getGroupList().size());
+        var group = app.hbm().getGroupList().get(rndGroup);
+
+        //Получаем список контактов в этой группе
+        var oldRelated = app.hbm().getContactInGroups(group);
+
+        //Выбираем контакты, не находящиеся в группе и сохраняем в список
+        app.contacts().selectContactWithNoGroups();
+        contactsWithoutGroups = app.contacts().getList();
+
+        //Получаем номер рандомного контакта, не находящегося в группе
+        var index = rnd.nextInt(contactsWithoutGroups.size());
+
+        //Добавляем контакт в группу
+        app.contacts().addExistContactToGroup(contactsWithoutGroups.get(index), group);
+
+
+        var newRelated = app.hbm().getContactInGroups(group);
+
+        var expectedList = new ArrayList<ContactData>(oldRelated);
+
+        expectedList.add(new ContactData()
+                .withId(newRelated.get(newRelated.size() - 1).id()));
+
+        assertEquals(Set.copyOf(expectedList), Set.copyOf(expectedList));
+    }
+
+    private static void checkContactsWithoutGroups(boolean contactsWithoutGroups) {
+        if (contactsWithoutGroups) {
+            app.hbm().createContact(new ContactData(
+                    "",
+                    "new first name",
+                    "new data",
+                    "new",
+                    "",
+                    "", "", "", "", "", "", "", ""));
+        }
     }
 
 

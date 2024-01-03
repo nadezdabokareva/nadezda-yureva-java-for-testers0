@@ -44,6 +44,9 @@ public class ContactHelper extends HelperBase {
     selectGroupToAddContact(group);
     addContact();
     }
+    public void selectContactWithNoGroups() {
+        new Select(manager.driver.findElement(By.name("group"))).selectByValue("[none]");
+    }
 
     private void addContact() {
         click(By.name("add"));

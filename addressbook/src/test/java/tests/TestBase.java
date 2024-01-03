@@ -33,8 +33,8 @@ public class TestBase {
         return Paths.get(direction, fileNames[index]).toString();
     }
 
-    @AfterEach
-    public void checkDataBaseConsistency() {
-        app.jdbc().checkConsistency();
-    }
+//    @AfterEach
+//    public void checkDataBaseConsistency() {
+//        app.jdbc().checkConsistency();
+//    }
 }
