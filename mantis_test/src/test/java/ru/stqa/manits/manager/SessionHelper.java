@@ -18,4 +18,14 @@ public class SessionHelper extends HelperBase {
     public boolean isLoggedIn() {
         return isElementPresent(By.cssSelector("span.user-info"));
     }
+
+    public void createUser(String username, String realname, String email) {
+        click(By.linkText("Manage"));
+        click(By.linkText("Users"));
+        click(By.linkText("Create New Account"));
+        type(By.name("user-username"), username);
+        type(By.name("user-realname"), realname);
+        type(By.name("email-field"), email);
+        click(By.cssSelector("input[value=Create User"));
+    }
 }
