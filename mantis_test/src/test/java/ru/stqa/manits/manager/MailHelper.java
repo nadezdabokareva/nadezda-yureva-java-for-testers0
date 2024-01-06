@@ -2,16 +2,41 @@ package ru.stqa.manits.manager;
 
 import jakarta.mail.*;
 import ru.stqa.manits.model.MailMessage;
+import ru.stqa.manits.tests.TestBase;
 
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 public class MailHelper extends HelperBase {
     public MailHelper(ApplicationManager manager) {
         super(manager);
+    }
+
+    public static String createNewMailAddres(String login) {
+        var email = String.format("%s@localhost", login);
+        TestBase.app.jamesCli().addUser(
+                email,
+                "password");
+//        System.out.println(email);
+        return email;
+    }
+
+    public static String extractUrlFromMail() throws InterruptedException {
+        String url = null;
+        var messagesFromEmail = TestBase.app.mail().receive("user2@localhost", "password", Duration.ofSeconds(60));
+        var text = messagesFromEmail.get(0).content();
+        var pattern = Pattern.compile("http://\\S*");
+        var matcher = pattern.matcher(text);
+        if (matcher.find()) {
+            url = text.substring(matcher.start(), matcher.end());
+//            System.out.println(url);
+            return url;
+        }
+        return url;
     }
 
     public List<MailMessage> receive(String login, String password, Duration duration) throws InterruptedException {

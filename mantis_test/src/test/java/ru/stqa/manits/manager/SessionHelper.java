@@ -23,9 +23,17 @@ public class SessionHelper extends HelperBase {
         click(By.linkText("Manage"));
         click(By.linkText("Users"));
         click(By.linkText("Create New Account"));
-        type(By.name("user-username"), username);
-        type(By.name("user-realname"), realname);
-        type(By.name("email-field"), email);
-        click(By.cssSelector("input[value=Create User"));
+        type(By.id("user-username"), username);
+        type(By.id("user-realname"), realname);
+        type(By.id("email-field"), email);
+        click(By.cssSelector("input[value='Create User']"));
+    }
+
+    public void endRegistration(String login, String password, String confirmPassword) {
+        type(By.id("realname"), login);
+        type(By.id("password"), password);
+        type(By.id("password-confirm"), confirmPassword);
+        click(By.linkText("Update User"));
+
     }
 }
