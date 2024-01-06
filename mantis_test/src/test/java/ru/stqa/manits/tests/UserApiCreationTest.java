@@ -1,9 +1,10 @@
 package ru.stqa.manits.tests;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-public class UserCreationTest extends TestBase {
+public class UserApiCreationTest extends TestBase {
 
     @Test
     public void canCreateUser(){
@@ -12,5 +13,6 @@ public class UserCreationTest extends TestBase {
         var password = "password";
         app.jamesApi().addUser(email, password);
     }
+
 
 }
