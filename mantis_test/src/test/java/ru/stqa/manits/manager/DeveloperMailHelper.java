@@ -82,9 +82,11 @@ public class DeveloperMailHelper extends HelperBase {
                     throw new RuntimeException(response2.errors().toString());
                 }
                 try {
-                    return new String(MimeUtility.decode(
+                    var result3 = new String(MimeUtility.decode(
                             new ByteArrayInputStream(response2.result().getBytes()),
                             "quoted-printable").readAllBytes());
+                    return result3;
+
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -92,6 +94,7 @@ public class DeveloperMailHelper extends HelperBase {
                 Thread.sleep(1000);
         }
         throw new RuntimeException("No mail");
+
     }
 
     public String get(String url, String token) {
