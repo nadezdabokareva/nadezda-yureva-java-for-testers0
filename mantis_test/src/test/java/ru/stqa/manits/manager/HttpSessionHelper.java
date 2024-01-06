@@ -28,7 +28,6 @@ public class HttpSessionHelper extends HelperBase {
 
         try (Response response = client.newCall(request).execute()) {
         if (!response.isSuccessful()) throw new RuntimeException("Unexpected code " + response);
-
       } catch (IOException e) {
             throw new RuntimeException(e);
         }
