@@ -27,10 +27,10 @@ public class UserDeveloperMailCreationTest extends TestBase {
         app.session().startCreation(user.name(), email);
 
         var messages = app.developerMail().receive(user, Duration.ofSeconds(10));
-        var url = MailHelper.extractUrlFromMail();
+//        var url = MailHelper.extractUrlFromMail();
 
         WebDriver driver = new ChromeDriver();
-        driver.get(url);
+        driver.get(messages);
         app.session().endRegistration(user.name(), "password", "password");
 
         app.http().login(user.name(), password);

@@ -85,7 +85,6 @@ public class DeveloperMailHelper extends HelperBase {
                 throw new RuntimeException(e);
             }
         }
-
         throw new RuntimeException("No mail");
     }
 
