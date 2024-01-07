@@ -1,20 +1,22 @@
 package ru.stqa.manits.manager;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeUtility;
 import okhttp3.*;
+import org.apache.commons.lang3.RandomStringUtils;
 import ru.stqa.manits.manager.developermail.AddUserResponse;
 import ru.stqa.manits.manager.developermail.GetIdsResponse;
 import ru.stqa.manits.manager.developermail.GetMessageResponse;
 import ru.stqa.manits.model.DeveloperMailUser;
+import ru.stqa.manits.model.UserForRegister;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.CookieManager;
 import java.time.Duration;
+
+import static io.restassured.path.json.JsonPath.given;
 
 public class DeveloperMailHelper extends HelperBase {
     public static final MediaType JSON = MediaType.get("application/json");
@@ -101,4 +103,7 @@ public class DeveloperMailHelper extends HelperBase {
             throw new RuntimeException(e);
         }
     }
+
+
+
 }

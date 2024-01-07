@@ -7,7 +7,11 @@ import io.swagger.client.api.IssuesApi;
 import io.swagger.client.auth.ApiKeyAuth;
 import io.swagger.client.model.Identifier;
 import io.swagger.client.model.Issue;
+import ru.stqa.manits.model.DeveloperMailUser;
 import ru.stqa.manits.model.IssueData;
+import ru.stqa.manits.model.UserForRegister;
+
+import static io.restassured.RestAssured.given;
 
 public class RestApiHelper extends HelperBase {
 
@@ -36,5 +40,27 @@ public class RestApiHelper extends HelperBase {
         } catch (ApiException e) {
            new RuntimeException(e);
         }
+    }
+
+    public void registrationUser(String username, String realname, String email) {
+
+        UserForRegister user = new UserForRegister("20240107CWH_Z74ctAO0M4lKVdnpEnZ6c3K99197",
+                username,
+                realname,
+                email,
+                "25",
+                "on");
+
+        UserForRegister data = given()
+                .body(user)
+                .when()
+                .post("http://localhost/mantisbt-2.26.0/api/rest/users/")
+                .then().log().all()
+                .extract().as(UserForRegister.class);
+
+        String returnEmail = data.getEmail();
+        System.out.println(returnEmail);
+
+
     }
 }

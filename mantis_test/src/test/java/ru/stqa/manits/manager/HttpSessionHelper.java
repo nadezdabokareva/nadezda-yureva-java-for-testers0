@@ -1,7 +1,6 @@
 package ru.stqa.manits.manager;
 
 import okhttp3.*;
-import org.checkerframework.checker.units.qual.C;
 
 import java.io.IOException;
 import java.net.CookieManager;

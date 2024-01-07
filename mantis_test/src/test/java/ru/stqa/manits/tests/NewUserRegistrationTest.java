@@ -42,4 +42,5 @@ public class NewUserRegistrationTest extends TestBase {
 
     }
 
+
 }

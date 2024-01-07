@@ -1,7 +1,6 @@
 package ru.stqa.manits.tests;
 
 import jakarta.mail.MessagingException;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
@@ -13,21 +12,22 @@ import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class UserDeveloperMailCreationTest extends TestBase {
+public class DeveloperUserMailCreationTest extends TestBase {
 
     DeveloperMailUser user;
 
     @Test
     public void canCreateUserWithDeveloperMail() throws InterruptedException, MessagingException {
+        //Регистрация нового адреса с помощью REST
         user = app.developerMail().addUser();
         var email = String.format(user.name() + "%s@developermail.com", user.name());
         var password = "password";
 
-        app.session().login("administrator", "root");
-        app.session().startCreation(user.name(), email);
+        //Регистрация нового пользователя в Мантис с помощью REST
+        app.rest().registrationUser(user.name(),user.name(), email);
 
         var messages = app.developerMail().receive(user, Duration.ofSeconds(10));
-//        var url = MailHelper.extractUrlFromMail();
+        var url = MailHelper.extractUrlFromMail();
 
         WebDriver driver = new ChromeDriver();
         driver.get(messages);
@@ -36,6 +36,7 @@ public class UserDeveloperMailCreationTest extends TestBase {
         app.http().login(user.name(), password);
         assertTrue(app.http().isLoggedIn());
     }
+
 
     @AfterEach
     public void deleteMailUser() {
