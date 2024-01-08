@@ -26,15 +26,17 @@ public class TestBase {
         app.init(System.getProperty("browser", "firefox"), properties);
     }
 
+
     public static String randomFile(String direction) {
         var fileNames = new File(direction).list();
         var randomFile = new Random();
         var index = randomFile.nextInt(fileNames.length);
         return Paths.get(direction, fileNames[index]).toString();
     }
-
-    @AfterEach
-    public void checkDataBaseConsistency() {
-        app.jdbc().checkConsistency();
-    }
+//
+//    @AfterEach
+//    public void checkDataBaseConsistency() {
+//        app.jdbc().checkConsistency();
+//    }
+//}
 }

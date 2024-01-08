@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static common.RandomStringGenerator.randomString;
-import static tests.TestBase.randomFile;
+
 
 public class Generator {
     static class Params {
@@ -131,8 +131,7 @@ public class Generator {
         return generateData(() -> new ContactData()
                 .withFirstName(RandomStringGenerator.randomString(10))
                 .withMiddleName(RandomStringGenerator.randomString(10))
-                .withLastName(RandomStringGenerator.randomString(10))
-                .withPhoto(randomFile("src/test/resources/images")));
+                .withLastName(RandomStringGenerator.randomString(10)));
     }
 
 

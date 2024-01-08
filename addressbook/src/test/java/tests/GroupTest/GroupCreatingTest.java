@@ -3,6 +3,7 @@ package tests.GroupTest;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import common.RandomStringGenerator;
+import io.qameta.allure.Allure;
 import model.GroupData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -71,6 +72,7 @@ public class GroupCreatingTest extends TestBase {
     @ParameterizedTest
     @MethodSource("groupProvider")
     public void canCreateMultipleGroupsTest(GroupData group){
+
         var oldGroups = app.groups().getList();
 
         app.groups().createGroup(group);

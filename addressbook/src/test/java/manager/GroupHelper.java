@@ -1,5 +1,6 @@
 package manager;
 
+import io.qameta.allure.Step;
 import model.GroupData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -33,6 +34,7 @@ public class GroupHelper extends HelperBase {
         type(By.name("group_footer"), group.footer());
     }
 
+    @Step
     //Полный метод создания группы
     public void createGroup(GroupData group) {
         openGroupsPage();
@@ -108,6 +110,7 @@ public class GroupHelper extends HelperBase {
                 .forEach(WebElement::click);
     }
 
+    @Step
     public List<GroupData> getList() {
         openGroupsPage();
         var spans = manager.driver.findElements(By.cssSelector("span.group"));
